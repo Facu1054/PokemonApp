@@ -9,13 +9,17 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.facundo.mypokemonapp.ui.screens.detail.DetailScreen
+import com.facundo.mypokemonapp.ui.screens.detail.DetailViewModel
 import com.facundo.mypokemonapp.ui.screens.home.HomeScreen
 import com.facundo.mypokemonapp.ui.screens.home.HomeViewModel
 
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Navigation(homeViewModel: HomeViewModel) {
+fun Navigation(homeViewModel: HomeViewModel,
+               detailViewModel: DetailViewModel
+               ) {
     val navController = rememberNavController()
 
     NavHost(navController = navController, startDestination = NavItem.Main.route) {
@@ -24,12 +28,13 @@ fun Navigation(homeViewModel: HomeViewModel) {
                 navController.navigate(NavItem.Detail.createNavRoute(pokeItem.id))
             }
         }
-        /*composable(NavItem.Detail)
+        composable(NavItem.Detail)
         { backstackEntry ->
 
-            DetailScreen(mediaId = backstackEntry.findArg(arg = NavArg.MediaId),
-                onUpClick = { navController.popBackStack() })
-        }*/
+            DetailScreen(pokemonId = backstackEntry.findArg(arg = NavArg.PokeId),
+                detailViewModel = detailViewModel,
+                onBack = { navController.popBackStack() })
+        }
     }
 }
 

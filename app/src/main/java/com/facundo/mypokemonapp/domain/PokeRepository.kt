@@ -12,5 +12,11 @@ class PokeRepository @Inject constructor( private val api: PokeService) {
         return response.map { it.toDomain() }
     }
 
+    suspend fun getPokemonDetail(id: Int): Pokemon {
+        val response = api.getPokemon(id)
+
+        return response?.toDomain() ?: Pokemon()
+    }
+
 
 }
