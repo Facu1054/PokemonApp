@@ -1,10 +1,11 @@
 package com.facundo.mypokemonapp.ui.screens.home
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresExtension
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.facundo.mypokemonapp.domain.GetListPokemonUseCase
@@ -27,21 +28,26 @@ class HomeViewModel @Inject constructor(
     private val _pokemonValue = MutableStateFlow<MutableList<Pokemon>>(mutableListOf())
     var pokemonValue: StateFlow<MutableList<Pokemon>> = _pokemonValue
 
-    var loading = mutableStateOf(false)
+    var state by mutableStateOf(UiState())
+        private set
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun onCreate() {
-        loading.value = true
         viewModelScope.launch(Dispatchers.IO) {
+            state = UiState(isLoading = true)
+            state = UiState(isLoading = false, pokemon = pokemonUseCase())
 
-            val result = pokemonUseCase()
-
-            if (!result.isNullOrEmpty()) {
+            /*if (!result.isNullOrEmpty()) {
                 _pokemonValue.value = result.toMutableList() ?: mutableListOf()
                 Log.i("resultTest",result.toString())
                 loading.value = false
 
-            }
+            }*/
         }
     }
+
+    data class UiState(
+        val isLoading: Boolean = false,
+        val pokemon: List<Pokemon> = emptyList()
+    )
 }
