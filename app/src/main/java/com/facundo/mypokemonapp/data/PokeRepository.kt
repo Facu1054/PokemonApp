@@ -1,4 +1,4 @@
-package com.facundo.mypokemonapp.domain
+package com.facundo.mypokemonapp.data
 
 import com.facundo.mypokemonapp.data.network.PokeService
 import com.facundo.mypokemonapp.domain.model.Pokemon

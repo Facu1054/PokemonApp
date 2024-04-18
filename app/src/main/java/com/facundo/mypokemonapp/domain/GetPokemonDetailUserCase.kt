@@ -1,7 +1,7 @@
 package com.facundo.mypokemonapp.domain
 
-import android.os.Build
 import android.util.Log
+import com.facundo.mypokemonapp.data.PokeRepository
 
 import com.facundo.mypokemonapp.domain.model.Pokemon
 import javax.inject.Inject
