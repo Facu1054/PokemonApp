@@ -8,6 +8,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,27 +21,34 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.facundo.mypokemonapp.R
+import com.facundo.mypokemonapp.domain.model.Pokemon
 import com.facundo.mypokemonapp.ui.shared.Screen
 import com.facundo.mypokemonapp.ui.theme.PokeTitle
 import com.facundo.mypokemonapp.ui.theme.colorMoves
@@ -55,7 +63,14 @@ fun DetailScreen(
     onBack: () -> Unit
 ) {
     //val pokemonInfo by detailViewModel.pokemonValue.collectAsStateWithLifecycle()
-    val state = detailViewModel.state
+    val state by detailViewModel.state.collectAsState()
+    val detailState = rememberDetailState()
+
+    state.message?.let {
+        detailState.ShowMessageEffect(message = it) {
+            detailViewModel.onAction(DetailAction.MessageShown)
+        }
+    }
 
     LaunchedEffect(key1 = true) {
         detailViewModel.onCreate(pokemonId)
@@ -65,10 +80,12 @@ fun DetailScreen(
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = { Text(
-                        text = state.pokemon.pokemonName,
-                        fontWeight = FontWeight.Bold
-                    ) },
+                    title = {
+                        Text(
+                            text = state.pokemon?.pokemonName ?: "",
+                            fontWeight = FontWeight.Bold
+                        )
+                    },
                     navigationIcon = {
                         IconButton(onClick = onBack) {
                             Icon(
@@ -82,6 +99,18 @@ fun DetailScreen(
                     )
                 )
             },
+            floatingActionButton = {
+                FloatingActionButton(onClick = { detailViewModel.onAction(DetailAction.FavoriteClick) }) {
+                    Icon(
+                        imageVector = Icons.Default.FavoriteBorder,
+                        contentDescription = stringResource(
+                            id = R.string.favorite
+                        )
+                    )
+                }
+            },
+            snackbarHost = { SnackbarHost(hostState = detailState.snackbarHostState) },
+            modifier = Modifier.nestedScroll(detailState.scrollBehavior.nestedScrollConnection)
         ) { padding ->
 
             if (state.isLoading) {
@@ -96,52 +125,61 @@ fun DetailScreen(
                 }
 
             } else {
-                Column {
-                    Column(
-                        modifier = Modifier
-                            .padding(padding)
-                            .verticalScroll(rememberScrollState())
-                    ) {
-                        PokemonDetail(pokemonInfo = state.pokemon)
+                state.pokemon?.let { pokemon ->
+                    PokemonTemplate(pokemon = pokemon, padding = padding)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun PokemonTemplate(pokemon: Pokemon, padding: PaddingValues) {
+    Column {
+        Column(
+            modifier = Modifier
+                .padding(padding)
+                .verticalScroll(rememberScrollState())
+        ) {
+            pokemon?.let { PokemonDetail(pokemonInfo = it) }
+        }
+
+        Card(
+            border = BorderStroke(2.dp, Color.Black),
+            modifier = Modifier
+                .background(Color.Transparent)
+                .padding(8.dp)
+        ) {
+
+
+            LazyColumn(
+
+            ) {
+
+                item {
+
+                    Row(Modifier.background(colorMoves)) {
+                        TableCell(text = "Move", weight = 1f, color = Color.White)
+                        TableCell(text = "Learn method", weight = 1f, color = Color.White)
                     }
+                }
 
-                    Card(
-                        border = BorderStroke(2.dp, Color.Black),
-                        modifier = Modifier
-                            .background(Color.Transparent)
-                            .padding(8.dp)
-                    ) {
+                pokemon?.let {
+                    items(it.moves) { move ->
 
-
-                        LazyColumn(
-
-                        ) {
-
-                            item {
-
-                                Row(Modifier.background(colorMoves)) {
-                                    TableCell(text = "Move", weight = 1f, color = Color.White)
-                                    TableCell(text = "Learn method", weight = 1f, color = Color.White)
-                                }
-                            }
-
-                            items(state.pokemon.moves) { move ->
-
-                                Row(modifier = Modifier.fillMaxWidth()) {
-                                    TableCell(
-                                        text = move.move.name,
-                                        weight = 1f
-                                    )
-                                    val learnMethod =
-                                        move.version_group_details.last().move_learn_method.name
-                                    TableCell(
-                                        text = learnMethod,
-                                        weight = 1f,
-                                    )
-                                }
-                                HorizontalDivider()
-                            }
+                        Row(modifier = Modifier.fillMaxWidth()) {
+                            TableCell(
+                                text = move.move.name,
+                                weight = 1f
+                            )
+                            val learnMethod =
+                                move.version_group_details.last().move_learn_method.name
+                            TableCell(
+                                text = learnMethod,
+                                weight = 1f,
+                            )
                         }
+                        HorizontalDivider()
                     }
                 }
             }

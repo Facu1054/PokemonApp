@@ -15,6 +15,9 @@ retrofit = "2.11.0"
 hilt_version = "2.48"
 ksp = "1.9.21-1.0.15"
 lifecycleRuntimeCompose = "2.7.0"
+mockito-koltin = "5.0.0"
+mockk = "1.13.10"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -31,6 +34,8 @@ androidx-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-toolin
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+mockito = { module = "org.mockito.kotlin:mockito-kotlin", name = "mockito", version.ref = "mockito-koltin" }
+mockk = { module = "io.mockk:mockk", name = "mockk", version.ref = "mockk" }
 androidx-material3-icons-extended = { group = "androidx.compose.material3", name = "icons-extended"  }
 #androidx-material3-icons-extended = { group = "androidx.compose.material3", name = "material-icons-extended" }
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }

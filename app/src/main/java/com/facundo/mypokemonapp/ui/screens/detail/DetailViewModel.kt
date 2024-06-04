@@ -2,9 +2,6 @@ package com.facundo.mypokemonapp.ui.screens.detail
 
 import android.os.Build
 import androidx.annotation.RequiresExtension
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.facundo.mypokemonapp.domain.GetPokemonUseCase
@@ -16,6 +13,12 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
+sealed interface DetailAction{
+    data object FavoriteClick : DetailAction
+    data object MessageShown : DetailAction
+}
+
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @HiltViewModel
 class DetailViewModel @Inject constructor(
@@ -25,13 +28,16 @@ class DetailViewModel @Inject constructor(
     private val _pokemonValue = MutableStateFlow<Pokemon>(Pokemon())
     var pokemonValue: StateFlow<Pokemon> = _pokemonValue
 
-    var state by mutableStateOf(UiState())
-        private set
+    private val _state= MutableStateFlow(UiState())
+    var state: StateFlow<UiState> = _state
+
+    /*var state by mutableStateOf(UiState())
+        private set*/
 
     fun onCreate(id:Int) {
         viewModelScope.launch(Dispatchers.IO) {
-            state = UiState(isLoading = true)
-            state = UiState(isLoading = false, pokemon = pokemonUseCase(id))
+            _state.value = UiState(isLoading = true)
+            _state.value = UiState(isLoading = false, pokemon = pokemonUseCase(id))
             /*val result = pokemonUseCase(id)
 
             if (result.pokemonName.isNotEmpty()) {
@@ -45,7 +51,15 @@ class DetailViewModel @Inject constructor(
 
     data class UiState(
         val isLoading: Boolean = false,
-        val pokemon: Pokemon = Pokemon()
+        val pokemon: Pokemon? = null,
+        val message: String? = null
     )
+
+    fun onAction(action: DetailAction){
+        when(action){
+            is DetailAction.FavoriteClick -> _state.value = _state.value.copy(message = "Favorite clicked")
+            is DetailAction.MessageShown -> _state.value = _state.value.copy(message = null)
+        }
+    }
 }
 
