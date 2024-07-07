@@ -9,8 +9,8 @@ import com.facundo.mypokemonapp.data.model.pokemonInfo.PokemonInfoDTO
 import com.facundo.mypokemonapp.data.model.pokemonInfo.Sprites
 import com.facundo.mypokemonapp.data.model.pokemonInfo.Type
 import com.facundo.mypokemonapp.data.model.pokemonInfo.TypeX
-import com.facundo.mypokemonapp.data.network.PokeApiClient
-import com.facundo.mypokemonapp.data.network.PokeService
+import com.facundo.mypokemonapp.data.datasource.remote.PokeApiClient
+import com.facundo.mypokemonapp.data.datasource.remote.PokeService
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.runBlocking

@@ -1,6 +1,7 @@
-package com.facundo.mypokemonapp.data.network
+package com.facundo.mypokemonapp.data.datasource.remote
 
 import com.facundo.mypokemonapp.data.model.PokeDTO
+import com.facundo.mypokemonapp.data.model.pokemonInfo.Ability
 import com.facundo.mypokemonapp.data.model.pokemonInfo.PokemonInfoDTO
 import retrofit2.Response
 import retrofit2.http.GET
@@ -18,6 +19,9 @@ interface PokeApiClient{
     suspend fun getPokemon(
         @Path("id") id: Int,
     ): Response<PokemonInfoDTO>
+
+    @GET("abilities")
+    suspend fun getAbilities(): Response<PokemonInfoDTO>
 
     /*
 

@@ -20,8 +20,8 @@ sealed class NavItem (
         navArgument(it.key){ type = it.navType }
     }
 
-    object Main: NavItem("main")
-    object Detail: NavItem("detail", listOf(NavArg.PokeId)){
+    data object Home: NavItem("home")
+    data object Detail: NavItem("detail", listOf(NavArg.PokeId)){
         fun createNavRoute(pokeId: Int) = "$baseRoute/$pokeId"
     }
 }

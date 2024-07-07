@@ -1,19 +1,15 @@
-package com.facundo.mypokemonapp.data.network
+package com.facundo.mypokemonapp.data.datasource.remote
 
+import com.facundo.mypokemonapp.data.datasource.remote.PokeApiClient
 import com.facundo.mypokemonapp.data.model.Result
 import com.facundo.mypokemonapp.data.model.pokemonInfo.PokemonInfoDTO
-import com.facundo.mypokemonapp.domain.model.Pokemon
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-interface PokemonServiceInterface {
-    //val listPokemon: Flow<List<Result>>
-    suspend fun getAllPokemon(): List<Pokemon>
-    suspend fun getPokemon(id: Int): PokemonInfoDTO?
-}
+
 
 open class PokeService @Inject constructor(
     private val api: PokeApiClient

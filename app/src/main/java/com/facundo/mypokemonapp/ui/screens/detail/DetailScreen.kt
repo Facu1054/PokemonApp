@@ -144,7 +144,7 @@ fun PokemonTemplate(pokemon: Pokemon, padding: PaddingValues) {
             pokemon?.let { PokemonDetail(pokemonInfo = it) }
         }
 
-        Card(
+        /*Card(
             border = BorderStroke(2.dp, Color.Black),
             modifier = Modifier
                 .background(Color.Transparent)
@@ -184,6 +184,7 @@ fun PokemonTemplate(pokemon: Pokemon, padding: PaddingValues) {
                 }
             }
         }
+        */
     }
 }
 

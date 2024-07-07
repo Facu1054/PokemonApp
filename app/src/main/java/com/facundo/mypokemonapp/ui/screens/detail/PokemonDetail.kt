@@ -133,6 +133,7 @@ fun PokemonDetail(pokemonInfo: Pokemon) {
                         .align(Alignment.CenterHorizontally)
                 )
 
+                /*
                 PokeFormat("Ability 1: ", pokemonInfo.ability1.name)
 
 
@@ -152,7 +153,7 @@ fun PokemonDetail(pokemonInfo: Pokemon) {
                         pokemonInfo.ability3.is_hidden
                     )
 
-                }
+                }*/
             }
 
         }

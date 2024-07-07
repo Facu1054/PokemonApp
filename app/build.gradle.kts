@@ -4,6 +4,8 @@ plugins {
     kotlin("kapt")
     kotlin("plugin.serialization") version "1.9.20"
     alias(libs.plugins.hiltPlugin)
+    //alias(libs.plugins.ksp)
+
 }
 
 android {
@@ -90,6 +92,10 @@ dependencies {
     //Hilt
     implementation("com.google.dagger:hilt-android:2.48")
     kapt("com.google.dagger:hilt-android-compiler:2.48")
+
+    //Room
+    implementation(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
 
 
     //Navigation

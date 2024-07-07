@@ -28,6 +28,8 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.facundo.mypokemonapp.domain.model.Pokemon
+import com.facundo.mypokemonapp.ui.shared.AcScaffold
 import com.facundo.mypokemonapp.ui.shared.Screen
 import com.facundo.mypokemonapp.ui.theme.backgroundPoke
 
@@ -47,11 +50,11 @@ import com.facundo.mypokemonapp.ui.theme.backgroundPoke
 @Composable
 fun HomeScreen(homeViewModel: HomeViewModel, onPokemonClick: (Pokemon) -> Unit) {
     //val pokemonList by homeViewModel.pokemonValue.collectAsStateWithLifecycle()
-    val state = homeViewModel.state
+    val state by homeViewModel.state.collectAsState()
 
-    LaunchedEffect(key1 = true) {
+    /*LaunchedEffect(key1 = true) {
         homeViewModel.onCreate()
-    }
+    }*/
 
 
 
@@ -62,44 +65,33 @@ fun HomeScreen(homeViewModel: HomeViewModel, onPokemonClick: (Pokemon) -> Unit) 
         val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
 
-        Scaffold(
+        AcScaffold(
+            state = state,
             topBar = {
                 TopAppBar(
                     title = { Text(text = "Pokemon") },
                     scrollBehavior = scrollBehavior,
 
-                )
+                    )
             },
             modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
             contentWindowInsets = WindowInsets.safeDrawing
-        ) { padding ->
+        ) { padding, pokemon ->
 
-            if (state.isLoading) {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center){
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .width(160.dp)
-                            .padding(padding),
-                        color = MaterialTheme.colorScheme.secondary,
-                        trackColor = MaterialTheme.colorScheme.surfaceVariant,
-                    )
-                }
 
-            } else {
+            LazyVerticalGrid(
+                columns = GridCells.Adaptive(150.dp),
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp),
+                modifier = Modifier.padding(horizontal = 4.dp),
+                contentPadding = padding
+            ) {
 
-                LazyVerticalGrid(
-                    columns = GridCells.Adaptive(150.dp),
-                    horizontalArrangement = Arrangement.spacedBy(4.dp),
-                    verticalArrangement = Arrangement.spacedBy(4.dp),
-                    modifier = Modifier.padding(horizontal = 4.dp),
-                    contentPadding = padding
-                ) {
-
-                    items(state.pokemon) { pokemon ->
-                        PokemonItem(pokemon = pokemon, onClick = { onPokemonClick(pokemon) })
-                    }
+                items(pokemon) { pokemon ->
+                    PokemonItem(pokemon = pokemon, onClick = { onPokemonClick(pokemon) })
                 }
             }
+
         }
     }
 
@@ -115,10 +107,10 @@ fun PokemonItem(pokemon: Pokemon, onClick: () -> Unit) {
 
             AsyncImage(
 
-                model = pokemon.urlImage
-                    , contentDescription = pokemon.pokemonName,
+                model = pokemon.urlImage, contentDescription = pokemon.pokemonName,
                 modifier = Modifier
-                    .fillMaxWidth().background(backgroundPoke)
+                    .fillMaxWidth()
+                    .background(backgroundPoke)
                     .aspectRatio(3 / 3f)
                     .clip(MaterialTheme.shapes.small)
             )

@@ -22,8 +22,8 @@ fun Navigation(homeViewModel: HomeViewModel,
                ) {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = NavItem.Main.route) {
-        composable(NavItem.Main) {
+    NavHost(navController = navController, startDestination = NavItem.Home.route) {
+        composable(NavItem.Home) {
             HomeScreen(homeViewModel = homeViewModel) {pokeItem ->
                 navController.navigate(NavItem.Detail.createNavRoute(pokeItem.id))
             }

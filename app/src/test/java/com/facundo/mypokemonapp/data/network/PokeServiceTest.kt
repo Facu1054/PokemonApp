@@ -1,5 +1,7 @@
 package com.facundo.mypokemonapp.data.network
 
+import com.facundo.mypokemonapp.data.datasource.remote.PokeApiClient
+import com.facundo.mypokemonapp.data.datasource.remote.PokeService
 import com.facundo.mypokemonapp.data.model.Result
 import com.facundo.mypokemonapp.data.model.pokemonInfo.Ability
 import com.facundo.mypokemonapp.data.model.pokemonInfo.AbilityX

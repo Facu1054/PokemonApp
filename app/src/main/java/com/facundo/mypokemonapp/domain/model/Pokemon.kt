@@ -1,12 +1,16 @@
 package com.facundo.mypokemonapp.domain.model
 
 import android.util.Log
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.facundo.mypokemonapp.data.model.Result
 import com.facundo.mypokemonapp.data.model.pokemonInfo.Move
 import com.facundo.mypokemonapp.data.model.pokemonInfo.PokemonInfoDTO
 
+@Entity
 data class Pokemon(
-    val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val pokemonName: String = "",
     val url: String = "",
     val urlImage: String = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$id.png",
@@ -17,14 +21,44 @@ data class Pokemon(
     val weight: String = "",
     val base_experience: String = "",
     val urlImageShiny: String = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/$id.png",
-    val ability1: Ability = Ability(),
-    val ability2: Ability = Ability(),
-    val ability3: Ability = Ability(),
-    val moves: List<Move> = emptyList()
+    //val moves: List<Move> = emptyList(),
+    val favorite: Boolean = false
 )
 
 
-fun Result.toDomain(): Pokemon {
+/*
+
+
+@Entity
+data class Pokemon(
+    @PrimaryKey(autoGenerate = true) val id: Int,
+    val pokemonName: String ,
+    val url: String ,
+    val urlImage: String ,
+    val type1: String ,
+    val type2: String ,
+    val description: String ,
+    val height: String ,
+    val weight: String ,
+    val base_experience: String ,
+    val urlImageShiny: String ,
+    val ability1: Ability ,
+    val ability2: Ability ,
+    val ability3: Ability ,
+    val moves: List<Move>
+)
+
+fun Pokemon.createImageUrl(id: Int): String {
+    return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/$id.png"
+}
+
+fun Pokemon.createShinyImageUrl(id: Int): String {
+    return "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/$id.png"
+}
+ */
+
+
+fun Result.toDomainModel(): Pokemon {
     val parseId = url.split("pokemon/").toTypedArray()
     val id = parseId[1].filter { it.isDigit() }
     Log.i("Pokemon", "id: $id")
@@ -34,11 +68,12 @@ fun Result.toDomain(): Pokemon {
     return Pokemon(
         id = id.toInt(),
         pokemonName = name.replaceFirstChar { it.uppercase() },
-        url = url
+        url = url,
+        //abilities = emptyList()
     )
 }
 
-fun PokemonInfoDTO.toDomain(): Pokemon {
+fun PokemonInfoDTO.toDomainModel(): Pokemon {
 
     return Pokemon (
         id = id,
@@ -48,9 +83,33 @@ fun PokemonInfoDTO.toDomain(): Pokemon {
         height = height.toString(),
         weight = weight.toString(),
         base_experience = base_experience.toString(),
-        ability1 = Ability(name = abilities[0].ability.name.replaceFirstChar { it.uppercase() }, is_hidden = abilities[0].is_hidden),
-        ability2 = if (abilities.size > 1) Ability(name = abilities[1].ability.name.replaceFirstChar { it.uppercase() }, is_hidden = abilities[1].is_hidden) else Ability(),
-        ability3 = if (abilities.size > 2) Ability(name = abilities[2].ability.name.replaceFirstChar { it.uppercase() }, is_hidden = abilities[2].is_hidden) else Ability(),
-        moves = moves
+        //abilities = abilities.map { Ability(nameAbility = it.ability.name.replaceFirstChar { it.uppercase() }, is_hidden = it.is_hidden)},
+        //moves = moves
     )
 }
+
+fun PokemonInfoDTO.AddAbility(): List<Ability>{
+    return listOf(Ability(nameAbility = abilities[0].ability.name.replaceFirstChar { it.uppercase() }, is_hidden = abilities[0].is_hidden),
+        if (abilities.size > 1) Ability(nameAbility = abilities[1].ability.name.replaceFirstChar { it.uppercase() }, is_hidden = abilities[1].is_hidden) else Ability(),
+        if (abilities.size > 2) Ability(nameAbility = abilities[2].ability.name.replaceFirstChar { it.uppercase() }, is_hidden = abilities[2].is_hidden) else Ability())
+}
+
+
+
+/*
+fun PokemonInfoDTO.toDomainModel(): Pokemon {
+
+    return Pokemon (
+        id = id,
+        pokemonName = name.replaceFirstChar { it.uppercase() },
+        type1 = types[0].type.name.replaceFirstChar { it.uppercase() },
+        type2 = if (types.size > 1) types[1].type.name.replaceFirstChar { it.uppercase() } else "",
+        height = height.toString(),
+        weight = weight.toString(),
+        base_experience = base_experience.toString(),
+        ability1 = Ability(nameAbility = abilities[0].ability.name.replaceFirstChar { it.uppercase() }, is_hidden = abilities[0].is_hidden),
+        ability2 = if (abilities.size > 1) Ability(nameAbility = abilities[1].ability.name.replaceFirstChar { it.uppercase() }, is_hidden = abilities[1].is_hidden) else Ability(),
+        ability3 = if (abilities.size > 2) Ability(nameAbility = abilities[2].ability.name.replaceFirstChar { it.uppercase() }, is_hidden = abilities[2].is_hidden) else Ability(),
+        moves = moves
+    )
+}*/

@@ -1,41 +1,44 @@
 package com.facundo.mypokemonapp.data
 
-import com.facundo.mypokemonapp.data.network.PokeApiClient
+import com.facundo.mypokemonapp.data.datasource.PokeLocalDataSource
+import com.facundo.mypokemonapp.data.datasource.PokeRemoteDataSource
 import com.facundo.mypokemonapp.domain.model.Pokemon
-import com.facundo.mypokemonapp.domain.model.toDomain
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 //class PokeRepository @Inject constructor( private val api: PokeService) {
-open class PokeRepository @Inject constructor( private val api: PokeApiClient) {
+open class PokeRepository @Inject constructor(
+    private val localDataSource: PokeLocalDataSource,
+    private val remoteDataSource: PokeRemoteDataSource
+) {
     //val apiResponse: Flow<List<Pokemon>>
     //val listPokemon = api.listPokemon
     //val pokemon = api.pokemon
-    val listPokemon = flow { emit(getPokemonList()) }
+    //val listPokemon = flow { emit(getPokemonList()) }
 
-
-
-    open suspend fun getPokemonList(): List<Pokemon> {
-        val responseBody = withContext(Dispatchers.IO){
-            val response = api.getAllPokemon()
-            response.body()?.results ?: emptyList()
+    //suspend fun pokesList(): List<Pokemon> = remoteDataSource.getAllPokemon()
+    val pokemons: Flow<List<Pokemon>> = localDataSource.pokes.onEach { localPokes ->
+        if (localPokes.isEmpty()) {
+            val remotePokes = remoteDataSource.getAllPokemon()
+            localDataSource.savePokemon(remotePokes)
         }
-        return responseBody.map { it.toDomain() }
     }
 
-    /*suspend fun getPokemonDetail(id: Int): Pokemon {
-        val response = api.getPokemon(id)
+    fun getPokemonDetail(id: Int): Flow<Pokemon> =
+        localDataSource.findPokemonById(id).onEach {
+            if (it == null) {
+                val remotePokemon = remoteDataSource.getPokemon(id)
+                localDataSource.savePokemon(listOf(remotePokemon))
+            }
+        }.filterNotNull()
 
-        return response?.toDomain() ?: Pokemon()
-    }*/
-    open suspend fun getPokemonDetail(id: Int): Pokemon {
-        val response = withContext(Dispatchers.IO){
-            val response = api.getPokemon(id)
-            response.body()
-        }
-        return response?.toDomain() ?: Pokemon()
+    suspend fun toggleFavorite(pokemon: Pokemon) {
+        localDataSource.savePokemon(listOf(pokemon.copy(favorite = !pokemon.favorite)))
+
     }
-
 }

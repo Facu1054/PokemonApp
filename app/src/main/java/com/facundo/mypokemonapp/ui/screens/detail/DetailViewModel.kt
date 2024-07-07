@@ -28,7 +28,7 @@ class DetailViewModel @Inject constructor(
     private val _pokemonValue = MutableStateFlow<Pokemon>(Pokemon())
     var pokemonValue: StateFlow<Pokemon> = _pokemonValue
 
-    private val _state= MutableStateFlow(UiState())
+    private val _state = MutableStateFlow(UiState())
     var state: StateFlow<UiState> = _state
 
     /*var state by mutableStateOf(UiState())

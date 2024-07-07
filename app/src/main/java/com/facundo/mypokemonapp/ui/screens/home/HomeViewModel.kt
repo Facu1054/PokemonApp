@@ -8,16 +8,22 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.facundo.mypokemonapp.Result
 import com.facundo.mypokemonapp.domain.GetListPokemonUseCase
 import com.facundo.mypokemonapp.domain.model.Pokemon
+import com.facundo.mypokemonapp.stateAsResultIn
+import com.facundo.mypokemonapp.ui.screens.detail.DetailViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.filter
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+//@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val pokemonUseCase: GetListPokemonUseCase,
@@ -25,17 +31,24 @@ class HomeViewModel @Inject constructor(
 
     ) : ViewModel() {
 
-    private val _pokemonValue = MutableStateFlow<MutableList<Pokemon>>(mutableListOf())
-    var pokemonValue: StateFlow<MutableList<Pokemon>> = _pokemonValue
+    /*private val _pokemonValue = MutableStateFlow<MutableList<Pokemon>>(mutableListOf())
+    var pokemonValue: StateFlow<MutableList<Pokemon>> = _pokemonValue*/
 
-    var state by mutableStateOf(UiState())
-        private set
+    /*var state by mutableStateOf(UiState())
+        private set*/
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun onCreate() {
-        viewModelScope.launch(Dispatchers.IO) {
-            state = UiState(isLoading = true)
-            state = UiState(isLoading = false, pokemon = pokemonUseCase())
+    //private val _state = MutableStateFlow(UiState())
+    private val uiReady = MutableStateFlow(false)
+    var state: StateFlow<Result<List<Pokemon>>> = uiReady
+        .filter { it }
+        .flatMapLatest { pokemonUseCase() }
+        .stateAsResultIn(viewModelScope)
+
+    init {
+        uiReady.value = true
+        /*viewModelScope.launch(Dispatchers.IO) {
+            _state.value = UiState(isLoading = true)
+            _state.value = UiState(isLoading = false, pokemon = pokemonUseCase())
 
             /*if (!result.isNullOrEmpty()) {
                 _pokemonValue.value = result.toMutableList() ?: mutableListOf()
@@ -43,7 +56,12 @@ class HomeViewModel @Inject constructor(
                 loading.value = false
 
             }*/
-        }
+        }*/
+    }
+
+
+    fun onUiReady() {
+        uiReady.value = true
     }
 
     data class UiState(
