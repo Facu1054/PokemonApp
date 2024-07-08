@@ -6,6 +6,7 @@ import androidx.room.Relation
 import com.facundo.mypokemonapp.domain.model.Ability
 import com.facundo.mypokemonapp.domain.model.Pokemon
 
+/*
 data class PokemonWithAbilities(
     @Embedded val pokemon: Pokemon,
     @Relation(
@@ -14,4 +15,4 @@ data class PokemonWithAbilities(
         associateBy = Junction(PokemonAbilityCrossRef::class)
     )
     val abilities: List<Ability>
-)
+)*/

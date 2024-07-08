@@ -38,6 +38,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.facundo.mypokemonapp.domain.model.Pokemon
 import com.facundo.mypokemonapp.ui.shared.AcScaffold
@@ -48,33 +49,31 @@ import com.facundo.mypokemonapp.ui.theme.backgroundPoke
 @RequiresApi(Build.VERSION_CODES.O)
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @Composable
-fun HomeScreen(homeViewModel: HomeViewModel, onPokemonClick: (Pokemon) -> Unit) {
+fun HomeScreen(
+    homeViewModel: HomeViewModel = hiltViewModel(),
+    onPokemonClick: (Pokemon) -> Unit
+) {
     //val pokemonList by homeViewModel.pokemonValue.collectAsStateWithLifecycle()
-    val state by homeViewModel.state.collectAsState()
+    //val state by homeViewModel.state.collectAsState()
+    val homeState = rememberHomeState()
+
 
     /*LaunchedEffect(key1 = true) {
         homeViewModel.onCreate()
     }*/
 
-
-
-
-
     Screen {
-
-        val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-
-
+        val state by homeViewModel.state.collectAsState()
         AcScaffold(
             state = state,
             topBar = {
                 TopAppBar(
                     title = { Text(text = "Pokemon") },
-                    scrollBehavior = scrollBehavior,
+                    scrollBehavior = homeState.scrollBehavior,
 
                     )
             },
-            modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+            modifier = Modifier.nestedScroll(homeState.scrollBehavior.nestedScrollConnection),
             contentWindowInsets = WindowInsets.safeDrawing
         ) { padding, pokemon ->
 
@@ -87,7 +86,7 @@ fun HomeScreen(homeViewModel: HomeViewModel, onPokemonClick: (Pokemon) -> Unit) 
                 contentPadding = padding
             ) {
 
-                items(pokemon) { pokemon ->
+                items(pokemon, key = {it.id}) { pokemon ->
                     PokemonItem(pokemon = pokemon, onClick = { onPokemonClick(pokemon) })
                 }
             }

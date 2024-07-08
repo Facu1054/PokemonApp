@@ -7,8 +7,6 @@ import androidx.room.Query
 import androidx.room.Transaction
 import com.facundo.mypokemonapp.domain.model.Ability
 import com.facundo.mypokemonapp.domain.model.Pokemon
-import com.facundo.mypokemonapp.domain.model.relations.PokemonAbilityCrossRef
-import com.facundo.mypokemonapp.domain.model.relations.PokemonWithAbilities
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -22,14 +20,11 @@ interface PokeDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun save(pokemon: List<Pokemon>)
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertAbility(ability: Ability): Long
+    /*@Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun savePokemon(pokemon: Pokemon): Int*/
 
-    @Insert
-    suspend fun insert(crossRef: PokemonAbilityCrossRef)
-
-    @Transaction
-    @Query("SELECT * FROM pokemon")
-    fun getPokemonWithAbilities(): Flow<List<PokemonWithAbilities>>
+    /*@Transaction
+    @Query("SELECT * FROM pokemon where id = :pokemonId")
+    fun getPokemonWithAbilities(pokemonId: Int): Flow<PokemonWithAbilities?>*/
 
 }

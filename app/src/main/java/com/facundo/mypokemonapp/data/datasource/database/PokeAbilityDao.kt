@@ -1,5 +1,5 @@
 package com.facundo.mypokemonapp.data.datasource.database
-
+/*
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -14,8 +14,8 @@ interface PokeAbilityDao {
     fun findAbility(id: Int): Flow<Ability>
 
     @Insert
-    suspend fun insert(ability: Ability): Long
+    suspend fun saveAbility(ability: Ability): Int
 
     @Query("SELECT * FROM Ability")
     fun getAllAbilities(): Flow<List<Ability>>
-}
+}*/

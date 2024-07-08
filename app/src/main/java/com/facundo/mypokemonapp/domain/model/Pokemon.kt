@@ -1,11 +1,9 @@
 package com.facundo.mypokemonapp.domain.model
 
 import android.util.Log
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.facundo.mypokemonapp.data.model.Result
-import com.facundo.mypokemonapp.data.model.pokemonInfo.Move
 import com.facundo.mypokemonapp.data.model.pokemonInfo.PokemonInfoDTO
 
 @Entity
@@ -21,8 +19,10 @@ data class Pokemon(
     val weight: String = "",
     val base_experience: String = "",
     val urlImageShiny: String = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/$id.png",
+    var abilities: String = "",
+    var statusAbility: String = "",
     //val moves: List<Move> = emptyList(),
-    val favorite: Boolean = false
+    val isFavorite: Boolean 
 )
 
 
@@ -69,13 +69,15 @@ fun Result.toDomainModel(): Pokemon {
         id = id.toInt(),
         pokemonName = name.replaceFirstChar { it.uppercase() },
         url = url,
+        isFavorite = false
+
         //abilities = emptyList()
     )
 }
 
 fun PokemonInfoDTO.toDomainModel(): Pokemon {
 
-    return Pokemon (
+    return Pokemon(
         id = id,
         pokemonName = name.replaceFirstChar { it.uppercase() },
         type1 = types[0].type.name.replaceFirstChar { it.uppercase() },
@@ -83,17 +85,31 @@ fun PokemonInfoDTO.toDomainModel(): Pokemon {
         height = height.toString(),
         weight = weight.toString(),
         base_experience = base_experience.toString(),
+        abilities = abilities[0].ability.name.replaceFirstChar { it.uppercase() } +
+                if (abilities.size > 1) {
+                    "," + abilities[1].ability.name.replaceFirstChar { it.uppercase() }
+                } else ""
+                        + if (abilities.size > 2) {
+                            "," + abilities[2].ability.name.replaceFirstChar { it.uppercase() }
+                        } else "",
+        statusAbility = abilities[0].is_hidden.toString() + if (abilities.size > 1) {
+            "," + abilities[1].is_hidden.toString()
+        } else "" + if (abilities.size > 2) {
+            "," + abilities[2].is_hidden.toString()
+        } else "",
+        isFavorite = false
+
+
         //abilities = abilities.map { Ability(nameAbility = it.ability.name.replaceFirstChar { it.uppercase() }, is_hidden = it.is_hidden)},
         //moves = moves
     )
 }
-
+/*
 fun PokemonInfoDTO.AddAbility(): List<Ability>{
     return listOf(Ability(nameAbility = abilities[0].ability.name.replaceFirstChar { it.uppercase() }, is_hidden = abilities[0].is_hidden),
         if (abilities.size > 1) Ability(nameAbility = abilities[1].ability.name.replaceFirstChar { it.uppercase() }, is_hidden = abilities[1].is_hidden) else Ability(),
         if (abilities.size > 2) Ability(nameAbility = abilities[2].ability.name.replaceFirstChar { it.uppercase() }, is_hidden = abilities[2].is_hidden) else Ability())
-}
-
+}*/
 
 
 /*

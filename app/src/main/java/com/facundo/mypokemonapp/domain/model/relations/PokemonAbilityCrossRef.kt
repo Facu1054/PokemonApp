@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import com.facundo.mypokemonapp.domain.model.Ability
 import com.facundo.mypokemonapp.domain.model.Pokemon
-
+/*
 @Entity(
     tableName = "pokemon_ability_cross_ref",
     primaryKeys = ["pokemonId", "abilityId"],
@@ -24,6 +24,8 @@ import com.facundo.mypokemonapp.domain.model.Pokemon
     ]
 )
 data class PokemonAbilityCrossRef(
-    val pokemonId: Long,
-    val abilityId: Long
+    val pokemonId: Int,
+    val abilityId: Int
 )
+
+*/

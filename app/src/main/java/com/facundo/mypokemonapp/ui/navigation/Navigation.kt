@@ -4,11 +4,23 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresExtension
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavArgs
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.facundo.mypokemonapp.data.PokeRepository
+import com.facundo.mypokemonapp.data.datasource.PokeLocalDataSource
+import com.facundo.mypokemonapp.data.datasource.PokeRemoteDataSource
+import com.facundo.mypokemonapp.data.datasource.remote.PokeApiClient
+import com.facundo.mypokemonapp.domain.GetPokemonUseCase
+import com.facundo.mypokemonapp.ui.navigation.NavArgs.*
 import com.facundo.mypokemonapp.ui.screens.detail.DetailScreen
 import com.facundo.mypokemonapp.ui.screens.detail.DetailViewModel
 import com.facundo.mypokemonapp.ui.screens.home.HomeScreen
@@ -17,42 +29,35 @@ import com.facundo.mypokemonapp.ui.screens.home.HomeViewModel
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Navigation(homeViewModel: HomeViewModel,
-               detailViewModel: DetailViewModel
+fun Navigation(
                ) {
     val navController = rememberNavController()
 
-    NavHost(navController = navController, startDestination = NavItem.Home.route) {
-        composable(NavItem.Home) {
-            HomeScreen(homeViewModel = homeViewModel) {pokeItem ->
-                navController.navigate(NavItem.Detail.createNavRoute(pokeItem.id))
+    val app = LocalContext.current.applicationContext
+
+    /*val pokeRepository = remember {
+        PokeRepository(
+            localDataSource = PokeLocalDataSource(),
+            remoteDataSource = PokeRemoteDataSource()
+        )
+    }*/
+
+    NavHost(navController = navController, startDestination = NavScreen.Home.route) {
+        composable(NavScreen.Home.route) {
+            HomeScreen() {pokeItem ->
+                navController.navigate(NavScreen.Detail.createRoute(pokeItem.id))
+                println("Pokemon ID: ${pokeItem.id}")
             }
         }
-        composable(NavItem.Detail)
-        { backstackEntry ->
+        composable(NavScreen.Detail.route,
+        arguments = listOf(navArgument(PokeId.key) { type = NavType.IntType })
+        ) { backstackEntry ->
+            val pokemonId = requireNotNull(backstackEntry.arguments?.getInt(PokeId.key))
 
-            DetailScreen(pokemonId = backstackEntry.findArg(arg = NavArg.PokeId),
-                detailViewModel = detailViewModel,
+            DetailScreen(
+
                 onBack = { navController.popBackStack() })
         }
     }
 }
 
-private fun NavGraphBuilder.composable(
-    navItem: NavItem,
-    content: @Composable (NavBackStackEntry) -> Unit
-){
-    composable(
-        route = navItem.route,
-        arguments = navItem.args
-    ){
-        content(it)
-    }
-}
-
-private inline fun < reified T> NavBackStackEntry.findArg(arg: NavArg): T{
-    val value = arguments?.get(arg.key)
-    //val value = arguments?.getByteArray(arg.key)
-    requireNotNull(id, { "Pokemon ID is required" })
-    return  value as T
-}

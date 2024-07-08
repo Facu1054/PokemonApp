@@ -3,34 +3,21 @@ package com.facundo.mypokemonapp.ui.screens.detail
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresExtension
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
-import androidx.compose.material3.Card
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -39,7 +26,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -47,42 +33,46 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.facundo.mypokemonapp.R
 import com.facundo.mypokemonapp.domain.model.Pokemon
+import com.facundo.mypokemonapp.ui.shared.AcScaffold
 import com.facundo.mypokemonapp.ui.shared.Screen
 import com.facundo.mypokemonapp.ui.theme.PokeTitle
-import com.facundo.mypokemonapp.ui.theme.colorMoves
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @Composable
 fun DetailScreen(
-    pokemonId: Int,
-    detailViewModel: DetailViewModel,
+
+    detailViewModel: DetailViewModel = hiltViewModel(),
+    //pokeId : Int,
     onBack: () -> Unit
 ) {
     //val pokemonInfo by detailViewModel.pokemonValue.collectAsStateWithLifecycle()
     val state by detailViewModel.state.collectAsState()
-    val detailState = rememberDetailState()
+    val detailState = rememberDetailState(state)
 
-    state.message?.let {
+    /*state.message?.let {
         detailState.ShowMessageEffect(message = it) {
             detailViewModel.onAction(DetailAction.MessageShown)
         }
-    }
+    }*/
 
-    LaunchedEffect(key1 = true) {
-        detailViewModel.onCreate(pokemonId)
-    }
+    /*LaunchedEffect(key1 = true) {
+        detailViewModel.onCreate(pokemon)
+        //println(detailState.pokemon?.pokemonName)
+    }*/
 
     Screen {
-        Scaffold(
+        AcScaffold(
+            state = state,
             topBar = {
                 TopAppBar(
                     title = {
                         Text(
-                            text = state.pokemon?.pokemonName ?: "",
+                            text = detailState.pokemon?.pokemonName ?: "",
                             fontWeight = FontWeight.Bold
                         )
                     },
@@ -100,9 +90,13 @@ fun DetailScreen(
                 )
             },
             floatingActionButton = {
-                FloatingActionButton(onClick = { detailViewModel.onAction(DetailAction.FavoriteClick) }) {
+                FloatingActionButton(onClick = {
+                    detailViewModel.onFavoriteClicked()
+                    //detailViewModel.onAction(DetailAction.FavoriteClick)
+                    }) {
+                    val favorite = detailState.pokemon?.isFavorite ?: false
                     Icon(
-                        imageVector = Icons.Default.FavoriteBorder,
+                        imageVector = if (favorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
                         contentDescription = stringResource(
                             id = R.string.favorite
                         )
@@ -111,37 +105,28 @@ fun DetailScreen(
             },
             snackbarHost = { SnackbarHost(hostState = detailState.snackbarHostState) },
             modifier = Modifier.nestedScroll(detailState.scrollBehavior.nestedScrollConnection)
-        ) { padding ->
+        ) { padding, pokemon ->
 
-            if (state.isLoading) {
-                Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .width(160.dp)
-                            .padding(padding),
-                        color = MaterialTheme.colorScheme.secondary,
-                        trackColor = MaterialTheme.colorScheme.surfaceVariant,
-                    )
-                }
+            PokemonTemplate(pokemon = pokemon, padding = padding,detailViewModel = detailViewModel)
+            /*detailState.pokemon?.let { pokemon ->
+                PokemonTemplate(pokemon = pokemon, padding = padding)
+            }*/
 
-            } else {
-                state.pokemon?.let { pokemon ->
-                    PokemonTemplate(pokemon = pokemon, padding = padding)
-                }
-            }
         }
     }
 }
 
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @Composable
-fun PokemonTemplate(pokemon: Pokemon, padding: PaddingValues) {
+fun PokemonTemplate(pokemon: Pokemon, padding: PaddingValues, detailViewModel: DetailViewModel) {
+    detailViewModel.onCreate(pokemon)
     Column {
         Column(
             modifier = Modifier
                 .padding(padding)
                 .verticalScroll(rememberScrollState())
         ) {
-            pokemon?.let { PokemonDetail(pokemonInfo = it) }
+            pokemon?.let { PokemonDetail(pokemonInfo = it, detailViewModel = detailViewModel) }
         }
 
         /*Card(

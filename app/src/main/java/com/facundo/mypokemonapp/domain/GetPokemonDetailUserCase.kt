@@ -2,6 +2,7 @@ package com.facundo.mypokemonapp.domain
 
 import com.facundo.mypokemonapp.data.PokeRepository
 import com.facundo.mypokemonapp.domain.model.Pokemon
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class GetPokemonUseCase @Inject constructor(
@@ -9,17 +10,8 @@ class GetPokemonUseCase @Inject constructor(
 
     ) {
 
-    suspend operator fun invoke(id:Int): Pokemon {
-
-        return if (
-            repository.getPokemonDetail(id).pokemonName.isNotEmpty()
-        ) {
-            //Log.i("DesdeAPI", "Desde la base de datos con conexion a Internet")
-            repository.getPokemonDetail(id)
-        } else {
-            //Log.i("DesdeDB", "Desde la base de datos")
-            Pokemon()
-        }
-
+    operator fun invoke(id:Int): Flow<Pokemon> {
+        //println("Entro al Use case $id")
+        return repository.getPokemonDetail(id)
     }
 }

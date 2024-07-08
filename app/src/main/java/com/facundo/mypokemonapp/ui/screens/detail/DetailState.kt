@@ -7,12 +7,23 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import com.facundo.mypokemonapp.domain.model.Pokemon
+import com.facundo.mypokemonapp.Result
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 class DetailState(
+    private val state: Result<Pokemon>,
     val scrollBehavior: TopAppBarScrollBehavior,
     val snackbarHostState: SnackbarHostState
 ) {
+
+        val pokemon: Pokemon?
+        get() = (state as? Result.Success)?.data
+
+        val topBarTitle: String
+        get() = pokemon?.pokemonName ?: ""
+
 
     @Composable
     fun ShowMessageEffect(message: String, onMessageShown: () -> Unit){
@@ -29,8 +40,8 @@ class DetailState(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun rememberDetailState(
+    state: Result<Pokemon>,
     scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
-    snackbarHostState: SnackbarHostState = SnackbarHostState()
-): DetailState {
-    return remember(scrollBehavior, snackbarHostState) { DetailState(scrollBehavior, snackbarHostState) }
-}
+    snackbarHostState: SnackbarHostState = remember{SnackbarHostState()}
+) = remember(state) { DetailState(state,scrollBehavior, snackbarHostState) }
+

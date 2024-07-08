@@ -2,9 +2,10 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
     kotlin("kapt")
-    kotlin("plugin.serialization") version "1.9.20"
-    alias(libs.plugins.hiltPlugin)
+    alias(libs.plugins.kotlinxSerialization)
+    alias(libs.plugins.compose.compiler)
     //alias(libs.plugins.ksp)
+    alias(libs.plugins.hilt)
 
 }
 
@@ -44,9 +45,7 @@ android {
 
     buildFeatures {
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.11"
+        buildConfig = true
     }
     packaging {
         resources {
@@ -90,8 +89,11 @@ dependencies {
     implementation(libs.retrofit.converter.gson)
 
     //Hilt
-    implementation("com.google.dagger:hilt-android:2.48")
-    kapt("com.google.dagger:hilt-android-compiler:2.48")
+    implementation(libs.hilt.android)
+    implementation(libs.androidx.hilt.navigation.compose)
+    kapt(libs.hilt.compiler)
+    /*implementation("com.google.dagger:hilt-android:2.48")
+    kapt("com.google.dagger:hilt-android-compiler:2.48")*/
 
     //Room
     implementation(libs.androidx.room.ktx)

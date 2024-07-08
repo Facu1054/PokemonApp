@@ -1,5 +1,7 @@
 package com.facundo.mypokemonapp.ui.screens.detail
 
+import android.os.Build
+import androidx.annotation.RequiresExtension
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -24,8 +26,10 @@ import coil.request.ImageRequest
 import com.facundo.mypokemonapp.domain.model.Pokemon
 import com.facundo.mypokemonapp.ui.theme.backgroundPoke
 
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @Composable
-fun PokemonDetail(pokemonInfo: Pokemon) {
+fun PokemonDetail(pokemonInfo: Pokemon, detailViewModel: DetailViewModel) {
+
     Column {
         Row {
             Card(
@@ -133,27 +137,28 @@ fun PokemonDetail(pokemonInfo: Pokemon) {
                         .align(Alignment.CenterHorizontally)
                 )
 
-                /*
-                PokeFormat("Ability 1: ", pokemonInfo.ability1.name)
 
 
-                if (pokemonInfo.ability2.name != "") {
+                PokeFormat("Ability 1: ", detailViewModel.ability.value[0].nameAbility)
+
+
+                if (detailViewModel.ability.value.size > 1) {
                     PokeFormat(
                         "Ability 2: ",
-                        pokemonInfo.ability2.name,
-                        pokemonInfo.ability2.is_hidden
+                        detailViewModel.ability.value[1].nameAbility,
+                        detailViewModel.ability.value[1].is_hidden
                     )
                 }
 
-                if (pokemonInfo.ability3.name != "") {
+                if (detailViewModel.ability.value.size > 2) {
 
                     PokeFormat(
                         "Ability 3: ",
-                        pokemonInfo.ability3.name,
-                        pokemonInfo.ability3.is_hidden
+                        detailViewModel.ability.value[2].nameAbility,
+                        detailViewModel.ability.value[2].is_hidden
                     )
 
-                }*/
+                }
             }
 
         }

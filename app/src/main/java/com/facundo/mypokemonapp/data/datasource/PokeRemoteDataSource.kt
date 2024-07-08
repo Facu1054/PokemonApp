@@ -2,7 +2,6 @@ package com.facundo.mypokemonapp.data.datasource
 
 import com.facundo.mypokemonapp.data.datasource.remote.PokeApiClient
 import com.facundo.mypokemonapp.domain.model.Ability
-import com.facundo.mypokemonapp.domain.model.AddAbility
 import com.facundo.mypokemonapp.domain.model.Pokemon
 import com.facundo.mypokemonapp.domain.model.toDomainModel
 import kotlinx.coroutines.Dispatchers
@@ -20,13 +19,13 @@ class PokeRemoteDataSource @Inject constructor(
         return responseBody.map { it.toDomainModel() }
     }
 
-    open suspend fun getAllAbilities(id:Int): List<Ability> {
+    /*open suspend fun getAllAbilities(id:Int): List<Ability> {
         val response = withContext(Dispatchers.IO){
             val response = api.getPokemon(id)
             response.body()
         }
         return response?.AddAbility() ?: emptyList()
-    }
+    }*/
 
     /*open suspend fun getPokemonList(): List<Pokemon> {
         val responseBody = withContext(Dispatchers.IO) {
@@ -40,9 +39,9 @@ class PokeRemoteDataSource @Inject constructor(
     open suspend fun getPokemon(id:Int): Pokemon {
         val response = withContext(Dispatchers.IO){
             val response = api.getPokemon(id)
-            response.body()
+            response.body().also { println("id "+ it?.id) }
         }
-        return response?.toDomainModel() ?: Pokemon()
+        return response?.toDomainModel() ?: Pokemon(isFavorite = false)
     }
 
 

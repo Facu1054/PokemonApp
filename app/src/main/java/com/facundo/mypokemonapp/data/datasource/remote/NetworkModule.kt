@@ -24,7 +24,7 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun provideComicApiClient(retrofit: Retrofit): PokeApiClient {
+    fun providePokemonApiClient(retrofit: Retrofit): PokeApiClient {
         return retrofit.create(PokeApiClient::class.java)
     }
 }
