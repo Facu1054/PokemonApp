@@ -1,4 +1,8 @@
+@file:Suppress("UnstableApiUsage")
+
+
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         google {
             content {
@@ -21,4 +25,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "My Pokemon App"
 include(":app")
- 
+
+include(":domain:pokemon")

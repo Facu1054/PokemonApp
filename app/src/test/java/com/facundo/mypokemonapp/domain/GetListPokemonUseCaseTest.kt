@@ -1,7 +1,8 @@
 package com.facundo.mypokemonapp.domain
 
-import com.facundo.mypokemonapp.data.PokeRepository
-import com.facundo.mypokemonapp.domain.model.Pokemon
+import com.facundo.mypokemonapp.domain.pokemon.data.PokeRepository
+import com.facundo.mypokemonapp.domain.pokemon.usecases.GetListPokemonUseCase
+import com.facundo.pokemon.data.model.Pokemon
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -14,11 +15,19 @@ import org.junit.Test
 
 class PokeResositoryFake : PokeRepository(mockk()){
     val expectedPokemonList = listOf(
-        Pokemon(1, "bulbasaur", "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png"),
-        Pokemon(2, "ivysaur", "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/2.png"),
+        com.facundo.pokemon.data.model.Pokemon(
+            1,
+            "bulbasaur",
+            "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png"
+        ),
+        com.facundo.pokemon.data.model.Pokemon(
+            2,
+            "ivysaur",
+            "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/2.png"
+        ),
     )
-    override suspend fun getPokemonList(): List<Pokemon> = expectedPokemonList
-    override suspend fun getPokemonDetail(id: Int): Pokemon = expectedPokemonList.first { it.id == id }
+    override suspend fun getPokemonList(): List<com.facundo.pokemon.data.model.Pokemon> = expectedPokemonList
+    override suspend fun getPokemonDetail(id: Int): com.facundo.pokemon.data.model.Pokemon = expectedPokemonList.first { it.id == id }
 
 
 }
@@ -37,8 +46,16 @@ class GetListPokemonUseCaseTest{
     @Test
     fun `when invoke is called, then call repository getPokemonList`() = runBlocking {
         val expectedPokemonList = listOf(
-            Pokemon(1, "bulbasaur", "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png"),
-            Pokemon(2, "ivysaur", "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/2.png"),
+            com.facundo.pokemon.data.model.Pokemon(
+                1,
+                "bulbasaur",
+                "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png"
+            ),
+            com.facundo.pokemon.data.model.Pokemon(
+                2,
+                "ivysaur",
+                "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/2.png"
+            ),
         )
         //Given
         coEvery { repository.getPokemonList() } returns expectedPokemonList

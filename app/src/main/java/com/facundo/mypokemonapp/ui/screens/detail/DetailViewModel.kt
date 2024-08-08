@@ -6,13 +6,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.facundo.mypokemonapp.Result
-import com.facundo.mypokemonapp.domain.GetPokemonUseCase
-import com.facundo.mypokemonapp.domain.ToggleFavoriteUseCase
-import com.facundo.mypokemonapp.domain.model.Ability
-import com.facundo.mypokemonapp.domain.model.Pokemon
+import com.facundo.mypokemonapp.domain.pokemon.usecases.GetPokemonUseCase
+import com.facundo.mypokemonapp.domain.pokemon.usecases.ToggleFavoriteUseCase
 import com.facundo.mypokemonapp.ifSuccess
 import com.facundo.mypokemonapp.stateAsResultIn
 import com.facundo.mypokemonapp.ui.screens.detail.di.PokemonId
+import com.facundo.mypokemonapp.domain.pokemon.model.Ability
+import com.facundo.mypokemonapp.domain.pokemon.model.Pokemon
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

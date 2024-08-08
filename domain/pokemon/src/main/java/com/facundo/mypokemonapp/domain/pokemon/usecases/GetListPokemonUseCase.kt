@@ -1,11 +1,9 @@
-package com.facundo.mypokemonapp.domain
+package com.facundo.mypokemonapp.domain.pokemon.usecases
 
 
-import com.facundo.mypokemonapp.data.PokeRepository
-import com.facundo.mypokemonapp.domain.model.Pokemon
+import com.facundo.mypokemonapp.domain.pokemon.data.PokeRepository
+import com.facundo.mypokemonapp.domain.pokemon.model.Pokemon
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.emptyFlow
-import kotlinx.coroutines.flow.filter
 import javax.inject.Inject
 
 class GetListPokemonUseCase @Inject constructor(

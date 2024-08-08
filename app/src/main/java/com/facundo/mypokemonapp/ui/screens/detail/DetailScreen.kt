@@ -35,10 +35,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.facundo.mypokemonapp.R
-import com.facundo.mypokemonapp.domain.model.Pokemon
 import com.facundo.mypokemonapp.ui.shared.AcScaffold
 import com.facundo.mypokemonapp.ui.shared.Screen
 import com.facundo.mypokemonapp.ui.theme.PokeTitle
+import com.facundo.mypokemonapp.domain.pokemon.model.Pokemon
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)

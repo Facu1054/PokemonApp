@@ -23,8 +23,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.*
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.facundo.mypokemonapp.domain.model.Pokemon
 import com.facundo.mypokemonapp.ui.theme.backgroundPoke
+import com.facundo.mypokemonapp.domain.pokemon.model.Pokemon
 
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @Composable

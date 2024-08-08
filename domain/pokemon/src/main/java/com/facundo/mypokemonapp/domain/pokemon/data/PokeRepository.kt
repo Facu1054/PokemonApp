@@ -1,16 +1,9 @@
-package com.facundo.mypokemonapp.data
+package com.facundo.mypokemonapp.domain.pokemon.data
 
-import com.facundo.mypokemonapp.data.datasource.PokeLocalDataSource
-import com.facundo.mypokemonapp.data.datasource.PokeRemoteDataSource
-import com.facundo.mypokemonapp.domain.model.Ability
-import com.facundo.mypokemonapp.domain.model.Pokemon
-import kotlinx.coroutines.Dispatchers
+import com.facundo.mypokemonapp.domain.pokemon.model.Pokemon
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.filterNotNull
-import kotlinx.coroutines.flow.firstOrNull
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 //class PokeRepository @Inject constructor( private val api: PokeService) {

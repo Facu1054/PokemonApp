@@ -1,26 +1,16 @@
 package com.facundo.mypokemonapp.ui.screens.home
 
-import android.os.Build
-import androidx.annotation.RequiresApi
-import androidx.annotation.RequiresExtension
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.facundo.mypokemonapp.Result
-import com.facundo.mypokemonapp.domain.GetListPokemonUseCase
-import com.facundo.mypokemonapp.domain.model.Pokemon
+import com.facundo.mypokemonapp.domain.pokemon.usecases.GetListPokemonUseCase
 import com.facundo.mypokemonapp.stateAsResultIn
-import com.facundo.mypokemonapp.ui.screens.detail.DetailViewModel
+import com.facundo.mypokemonapp.domain.pokemon.model.Pokemon
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.filter
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 //@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)

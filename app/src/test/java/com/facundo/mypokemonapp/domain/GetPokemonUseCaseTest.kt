@@ -1,7 +1,8 @@
 package com.facundo.mypokemonapp.domain
 
-import com.facundo.mypokemonapp.data.PokeRepository
-import com.facundo.mypokemonapp.domain.model.Pokemon
+import com.facundo.mypokemonapp.domain.pokemon.data.PokeRepository
+import com.facundo.mypokemonapp.domain.pokemon.usecases.GetPokemonUseCase
+import com.facundo.pokemon.data.model.Pokemon
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -24,7 +25,7 @@ class GetPokemonUseCaseTest {
 
     @Test
     fun `when invoke is called, then call repository to get info from specific pokemon`() = runBlocking {
-        val expectedPokemon = Pokemon(
+        val expectedPokemon = com.facundo.pokemon.data.model.Pokemon(
             1,
             "bulbasaur",
             "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png"
@@ -41,32 +42,32 @@ class GetPokemonUseCaseTest {
     @Test
     fun `when invoke is called, then call repository and get emptylist`() = runBlocking {
         //Given
-        val expectedPokemon = Pokemon(
+        val expectedPokemon = com.facundo.pokemon.data.model.Pokemon(
             1,
             "bulbasaur",
             "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png"
         )
         //Given
-        coEvery { repository.getPokemonDetail(1) } returns Pokemon()
+        coEvery { repository.getPokemonDetail(1) } returns com.facundo.pokemon.data.model.Pokemon()
 
         //When
         val useCaseResponse = getListPokemonUseCase(1)
 
         //Then
         coVerify(exactly = 1) { repository.getPokemonDetail(1) }
-        assertEquals(Pokemon(), useCaseResponse)
+        assertEquals(com.facundo.pokemon.data.model.Pokemon(), useCaseResponse)
     }
 
     @Test
     fun `when invoke is called, then call repository atLeast one time`() = runBlocking {
         //Given
-        val expectedPokemon = Pokemon(
+        val expectedPokemon = com.facundo.pokemon.data.model.Pokemon(
             1,
             "bulbasaur",
             "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png"
         )
         //Given
-        coEvery { repository.getPokemonDetail(1) } returns Pokemon()
+        coEvery { repository.getPokemonDetail(1) } returns com.facundo.pokemon.data.model.Pokemon()
 
         //When
         val useCaseResponse = getListPokemonUseCase(1)

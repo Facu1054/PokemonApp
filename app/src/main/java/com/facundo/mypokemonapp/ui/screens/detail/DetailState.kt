@@ -7,8 +7,8 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import com.facundo.mypokemonapp.domain.model.Pokemon
 import com.facundo.mypokemonapp.Result
+import com.facundo.mypokemonapp.domain.pokemon.model.Pokemon
 
 
 @OptIn(ExperimentalMaterial3Api::class)

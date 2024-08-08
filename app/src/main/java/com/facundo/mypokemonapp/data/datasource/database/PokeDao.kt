@@ -4,21 +4,18 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import androidx.room.Transaction
-import com.facundo.mypokemonapp.domain.model.Ability
-import com.facundo.mypokemonapp.domain.model.Pokemon
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface PokeDao {
-    @Query("SELECT * FROM Pokemon")
-    fun fetchAllPokemon(): Flow<List<Pokemon>>
+    @Query("SELECT * FROM DbPokemon")
+    fun fetchAllPokemon(): Flow<List<DbPokemon>>
 
-    @Query("SELECT * FROM Pokemon WHERE id = :id")
-    fun findPokemonById(id: Int): Flow<Pokemon?>
+    @Query("SELECT * FROM DbPokemon WHERE id = :id")
+    fun findPokemonById(id: Int): Flow<DbPokemon?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun save(pokemon: List<Pokemon>)
+    suspend fun save(pokemon: List<DbPokemon>)
 
     /*@Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun savePokemon(pokemon: Pokemon): Int*/
