@@ -4,12 +4,9 @@ import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresExtension
 import com.facundo.mypokemonapp.ui.navigation.Navigation
-import com.facundo.mypokemonapp.ui.screens.detail.DetailViewModel
-import com.facundo.mypokemonapp.ui.screens.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

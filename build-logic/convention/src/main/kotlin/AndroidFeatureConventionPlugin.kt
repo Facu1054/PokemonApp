@@ -8,12 +8,14 @@ class AndroidFeatureConventionPlugin : Plugin<Project> {
     override fun apply(target: Project) {
         with(target) {
             pluginManager.apply {
-                //apply("pokemon.android.library.compose")
+                apply("pokemon.android.library.compose")
             }
 
             dependencies {
-                //add("implementation", project(":feature:common"))
+                add("implementation", project(":feature:common"))
                 add("implementation", libs.findLibrary("androidx.lifecycle.viewmodel.compose").get())
+
+
             }
         }
     }

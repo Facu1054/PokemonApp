@@ -10,9 +10,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.facundo.mypokemonapp.ui.navigation.NavArgs.*
-import com.facundo.mypokemonapp.ui.screens.detail.DetailScreen
-import com.facundo.mypokemonapp.ui.screens.home.HomeScreen
+import com.facundo.mypokemonapp.ui.common.NavArgs.*
+import com.facundo.mypokemonapp.ui.detail.DetailScreen
+import mypokemonapp.ui.home.HomeScreen
 
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @RequiresApi(Build.VERSION_CODES.O)
@@ -30,19 +30,20 @@ fun Navigation(
         )
     }*/
 
-    NavHost(navController = navController, startDestination = NavScreen.Home.route) {
-        composable(NavScreen.Home.route) {
-            HomeScreen() {pokeItem ->
-                navController.navigate(NavScreen.Detail.createRoute(pokeItem.id))
+    NavHost(navController = navController, startDestination = com.facundo.mypokemonapp.ui.common.NavScreen.Home.route) {
+        composable(com.facundo.mypokemonapp.ui.common.NavScreen.Home.route) {
+            mypokemonapp.ui.home.HomeScreen() { pokeItem ->
+                navController.navigate(com.facundo.mypokemonapp.ui.common.NavScreen.Detail.createRoute(pokeItem.id))
                 println("Pokemon ID: ${pokeItem.id}")
             }
         }
-        composable(NavScreen.Detail.route,
+        composable(
+            com.facundo.mypokemonapp.ui.common.NavScreen.Detail.route,
         arguments = listOf(navArgument(PokeId.key) { type = NavType.IntType })
         ) { backstackEntry ->
             val pokemonId = requireNotNull(backstackEntry.arguments?.getInt(PokeId.key))
 
-            DetailScreen(
+            com.facundo.mypokemonapp.ui.detail.DetailScreen(
 
                 onBack = { navController.popBackStack() })
         }

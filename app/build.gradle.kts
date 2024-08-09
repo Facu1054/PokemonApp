@@ -4,24 +4,10 @@ plugins {
     alias(libs.plugins.ksp)
     //alias(libs.plugins.hilt)
     //id("pokemon.android.library")
+
     id("pokemon.android.application")
     id("pokemon.android.application.compose")
-    id("pokemon.android.room")
-
-    id("pokemon.jvm.retrofit")
-    id("pokemon.android.feature")
-    id("pokemon.di.library")
     id("pokemon.di.library.compose")
-
-
-
-
-    //id("pokemon.android.feature")
-
-
-
-
-
 }
 
 android {
@@ -65,6 +51,12 @@ dependencies {
 
     implementation(project(":framework:core"))
     implementation(project(":framework:pokemon"))
+
+    implementation(project(":feature:home"))
+    implementation(project(":feature:common"))
+    implementation(project(":feature:detail"))
+
+
 
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.navigation.compose)

@@ -1,5 +1,17 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":feature:common")
+
+
+include(":feature:detail")
+
+
+include(":feature:home")
+
+
+include(":feature")
+
+
 include(":framework:core")
 
 

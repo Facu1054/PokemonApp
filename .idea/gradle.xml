@@ -26,6 +26,10 @@
             <option value="$PROJECT_DIR$/build-logic/convention" />
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/domain/pokemon" />
+            <option value="$PROJECT_DIR$/feature" />
+            <option value="$PROJECT_DIR$/feature/common" />
+            <option value="$PROJECT_DIR$/feature/detail" />
+            <option value="$PROJECT_DIR$/feature/home" />
             <option value="$PROJECT_DIR$/framework" />
             <option value="$PROJECT_DIR$/framework/core" />
             <option value="$PROJECT_DIR$/framework/pokemon" />
