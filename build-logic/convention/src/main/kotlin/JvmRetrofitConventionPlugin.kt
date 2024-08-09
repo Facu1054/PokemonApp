@@ -12,8 +12,10 @@ class JvmRetrofitConventionPlugin : Plugin<Project> {
                 add("implementation", libs.findLibrary("okhttp").get())
                 add("implementation", libs.findLibrary("retrofit").get())
                 add("implementation", libs.findLibrary("retrofit.converter.kotlinx.serialization").get())
+                add("implementation", libs.findLibrary("retrofit.converter.gson").get())
                 add("implementation", libs.findLibrary("kotlinx.serialization.json").get())
                 add("implementation", libs.findLibrary("kotlinx.coroutines.android").get())
+
             }
         }
     }

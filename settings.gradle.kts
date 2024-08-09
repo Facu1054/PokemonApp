@@ -1,5 +1,16 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":framework:core")
+
+
+
+include(":framework:pokemon")
+
+
+
+include(":framework")
+
+
 
 pluginManagement {
     includeBuild("build-logic")

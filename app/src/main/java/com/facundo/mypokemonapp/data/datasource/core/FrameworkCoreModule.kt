@@ -2,9 +2,9 @@ package com.facundo.mypokemonapp.data.datasource.core
 /*
 import android.app.Application
 import androidx.room.Room
-import com.facundo.mypokemonapp.data.datasource.database.PokeDatabase
+import com.facundo.mypokemonapp.framework.core.PokeDatabase
 import com.facundo.mypokemonapp.data.datasource.remote.NetworkModule
-import com.facundo.mypokemonapp.data.datasource.remote.PokeApiClient
+import com.facundo.mypokemonapp.framework.pokemon.network.PokeApiClient
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

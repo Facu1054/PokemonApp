@@ -63,9 +63,13 @@ dependencies {
 
     implementation(project(":domain:pokemon"))
 
+    implementation(project(":framework:core"))
+    implementation(project(":framework:pokemon"))
+
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.navigation.compose)
     implementation(libs.play.services.location)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -74,8 +78,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     //Retrofit
-    implementation(libs.retrofit)
-    implementation(libs.retrofit.converter.gson)
+    //implementation(libs.retrofit)
+    //implementation(libs.retrofit.converter.gson)
 
 
     //Hilt

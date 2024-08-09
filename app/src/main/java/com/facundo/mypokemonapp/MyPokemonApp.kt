@@ -1,8 +1,6 @@
 package com.facundo.mypokemonapp
 
 import android.app.Application
-import androidx.room.Room
-import com.facundo.mypokemonapp.data.datasource.database.PokeDatabase
 import dagger.hilt.android.HiltAndroidApp
 
 @HiltAndroidApp

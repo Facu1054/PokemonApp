@@ -3,6 +3,8 @@ package com.facundo.mypokemonapp.data
 
 import com.facundo.mypokemonapp.domain.pokemon.data.PokeLocalDataSource
 import com.facundo.mypokemonapp.domain.pokemon.data.PokeRemoteDataSource
+import com.facundo.mypokemonapp.framework.pokemon.database.PokeRoomDataSource
+import com.facundo.mypokemonapp.framework.pokemon.network.PokeServerDataSource
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
