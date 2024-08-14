@@ -18,7 +18,7 @@ data class Pokemon(
     var statusAbility: String = "",
     //val moves: List<Move> = emptyList(),
     val isFavorite: Boolean ,
-    var generacion: String = ""
+    var region: String = ""
 )
 
 

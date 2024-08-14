@@ -5,7 +5,7 @@ import androidx.room.RoomDatabase
 import com.facundo.mypokemonapp.framework.pokemon.database.DbPokemon
 import com.facundo.mypokemonapp.framework.pokemon.database.PokeDao
 
-@Database(entities = [DbPokemon::class], version = 4, exportSchema = false)
+@Database(entities = [DbPokemon::class], version = 5, exportSchema = false)
 abstract class PokeDatabase: RoomDatabase() {
     abstract fun pokeDao(): PokeDao
     //abstract fun pokeAbilityDao(): PokeAbilityDao

@@ -11,13 +11,13 @@ import retrofit2.http.Query
 
 interface PokeApiClient{
 
-    /*@GET("/api/v2/pokemon")
+    @GET("/api/v2/pokemon")
     suspend fun getAllPokemon(
         @Query("limit") limit: Int = 50
-    ): Response<PokeDTO>*/
+    ): Response<PokeDTO>
 
     @GET("/api/v2/generation/{id}")
-    suspend fun getAllPokemon(
+    suspend fun getAllPokemonRegion(
         @Path("id") id: Int,
         //@Query("limit") limit: Int = 50
     ): Response<GenerationPokemonData>
