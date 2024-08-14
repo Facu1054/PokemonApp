@@ -2,6 +2,7 @@ package com.facundo.mypokemonapp.framework.pokemon.network
 
 
 import com.facundo.mypokemonapp.framework.pokemon.network.model.PokeDTO
+import com.facundo.mypokemonapp.framework.pokemon.network.model.generations.GenerationPokemonData
 import com.facundo.mypokemonapp.framework.pokemon.network.model.pokemonInfo.PokemonInfoDTO
 import retrofit2.Response
 import retrofit2.http.GET
@@ -10,10 +11,16 @@ import retrofit2.http.Query
 
 interface PokeApiClient{
 
-    @GET("/api/v2/pokemon")
+    /*@GET("/api/v2/pokemon")
     suspend fun getAllPokemon(
         @Query("limit") limit: Int = 50
-    ): Response<PokeDTO>
+    ): Response<PokeDTO>*/
+
+    @GET("/api/v2/generation/{id}")
+    suspend fun getAllPokemon(
+        @Path("id") id: Int,
+        //@Query("limit") limit: Int = 50
+    ): Response<GenerationPokemonData>
 
     @GET("/api/v2/pokemon/{id}")
     suspend fun getPokemon(
