@@ -11,34 +11,39 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
-
+/*
 open class PokeService @Inject constructor(
     private val api: PokeApiClient
 ) {
 
 
-    val listPokemon: Flow<List<PokemonSpecy>> = flow { emit(getAllPokemon()) }
+    val listPokemon: Flow<List<Result>> = flow { emit(getAllPokemon()) }
     //val pokemon: Flow<PokemonInfoDTO> = flow { getPokemon(1)?.let { emit(it) } }
 
     /*suspend fun getAllPokemon(): List<Result> {
         return withContext(Dispatchers.IO){
-            val response = api.getAllPokemon(4)
+            val response = api.getAllPokemon()
             response.body()?.results ?: emptyList()
         }
 
     }*/
 
-    suspend fun getAllPokemon(): List<PokemonSpecy> {
+    suspend fun getAllPokemon(): List<Result> {
         return withContext(Dispatchers.IO){
-            val response = api.getAllPokemon(1)
+            val response = api.getAllPokemon(4)
             //val generations = response.body()?.main_region?.name ?: ""
             /*if(response.body() != null){
                 response.body()?.pokemon_species?.forEach {
                     it.generation = response.body()?.main_region?.name ?: ""
                 }
             }*/
+            Log.i("PokeServerDataSourcesfs", "response.body()?.main_region?.name: ${response.body()}")
 
-            response.body()?.pokemon_species ?: emptyList()
+            //val region = response.body()?.main_region?.name ?: ""
+            //val pokemonSpecies = response.body()?.pokemon_species?.map { it.copy(region = region) }
+            //Log.i("PokeServerDataSourcesfs", "pokemonSpecies: ${pokemonSpecies}")
+
+            response.body()?.results ?: emptyList()
         }
 
     }
@@ -53,5 +58,5 @@ open class PokeService @Inject constructor(
 
 
 
-}
+}*/
 

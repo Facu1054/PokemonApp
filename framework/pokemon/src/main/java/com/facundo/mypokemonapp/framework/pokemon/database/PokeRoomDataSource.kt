@@ -71,7 +71,7 @@ private fun Pokemon.toDbMovie() = DbPokemon(
     abilities,
     statusAbility,
     isFavorite,
-    generacion
+    region
 )
 
 private fun DbPokemon.toDomainPokemon() = Pokemon(
@@ -89,5 +89,5 @@ private fun DbPokemon.toDomainPokemon() = Pokemon(
     abilities,
     statusAbility,
     isFavorite,
-    generacion
+    region
 )
