@@ -1,4 +1,4 @@
-package com.facundo.mypokemonapp
+package com.facundo.mypokemonapp.framework.pokemon
 
 
 import com.facundo.mypokemonapp.domain.pokemon.data.PokeLocalDataSource

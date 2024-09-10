@@ -16,7 +16,7 @@ class DetailViewModelModule {
     @ViewModelScoped
     @PokemonId
     fun provideMovieId(savedStateHandle: SavedStateHandle): Int {
-        return savedStateHandle[NavArgs.PokeId.key] ?: -1
+        return savedStateHandle[NavArgs.PokeId.key] ?: throw IllegalArgumentException("PokeId not found")
     }
 
 }

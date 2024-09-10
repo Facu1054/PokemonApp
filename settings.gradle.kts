@@ -1,5 +1,11 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":framework:region")
+
+
+include(":domain:region")
+
+
 include(":feature:common")
 
 

@@ -1,5 +1,6 @@
 package mypokemonapp.ui.home
 
+import android.Manifest
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresExtension
@@ -34,16 +35,36 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.facundo.mypokemonapp.domain.pokemon.model.Pokemon
 import com.facundo.mypokemonapp.ui.common.AcScaffold
+import com.facundo.mypokemonapp.ui.common.PermissionRequestEffect
 import com.facundo.mypokemonapp.ui.common.Screen
 import com.facundo.mypokemonapp.ui.common.theme.backgroundPoke
 import com.facundo.mypokemonapp.ui.common.Result
+
+
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+@RequiresApi(Build.VERSION_CODES.O)
+@Composable
+fun HomeScreen(
+    vm: HomeViewModel = hiltViewModel(),
+    onPokemonClick: (Pokemon) -> Unit
+) {
+    PermissionRequestEffect(permission = Manifest.permission.ACCESS_COARSE_LOCATION) {
+        vm.onUiReady()
+    }
+
+    val state by vm.state.collectAsState()
+    HomeScreen(
+        homeViewModel = state,
+        onPokemonClick = onPokemonClick
+    )
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @RequiresApi(Build.VERSION_CODES.O)
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @Composable
-fun HomeScreen(
-    homeViewModel: HomeViewModel = hiltViewModel(),
+private fun HomeScreen(
+    homeViewModel: Result<List<Pokemon>>,
     onPokemonClick: (Pokemon) -> Unit
 ) {
     //val pokemonList by homeViewModel.pokemonValue.collectAsStateWithLifecycle()
@@ -56,9 +77,8 @@ fun HomeScreen(
     }*/
 
     Screen {
-        val state by homeViewModel.state.collectAsState()
         AcScaffold(
-            state = state,
+            state = homeViewModel,
             topBar = {
                 TopAppBar(
                     title = { Text(text = "Pokemon") },

@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 
 
-class PokeServerDataSource @Inject constructor(
+internal class PokeServerDataSource @Inject constructor(
     private val api: PokeApiClient
 ) : PokeRemoteDataSource {
     /*override suspend fun getAllPokemon(): List<Pokemon> {
@@ -24,11 +24,11 @@ class PokeServerDataSource @Inject constructor(
         return responseBody.map { it.toDomainModel() }
     }*/
 
-    override suspend fun getAllPokemon(): List<Pokemon> {
+    override suspend fun getAllPokemon(region:Int): List<Pokemon> {
         val responseBody = withContext(Dispatchers.IO){
-            val response = api.getAllPokemonRegion(4)
-            val region = response.body()?.main_region?.name ?: ""
-            val pokemonSpecies = response.body()?.pokemon_species?.map { it.copy(region = region) }
+            val response = api.getAllPokemonRegion(region)
+            val regionName = response.body()?.main_region?.name ?: ""
+            val pokemonSpecies = response.body()?.pokemon_species?.map { it.copy(region = regionName) }
 
             pokemonSpecies ?: emptyList()
         }

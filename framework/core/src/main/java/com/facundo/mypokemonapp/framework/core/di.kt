@@ -9,25 +9,36 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 internal object FrameworkCoreModule {
-    @Singleton
+    /*@Singleton
     @Provides
     fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
             .baseUrl("https://pokeapi.co/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-    }
+    }*/
 
-    @Provides
+    /*@Provides
     @Singleton
     fun providePokemonApiClient(retrofit: Retrofit): PokeApiClient {
         return retrofit.create(PokeApiClient::class.java)
-    }
+    }*/
+
+    @Provides
+    @Singleton
+    fun providePokemonService(
+        @Named("apiUrl") apiUrl: String
+    ) : PokeApiClient = PokemonClient(apiUrl).instance
+
+    @Provides
+    fun provideMoviesDao(db: PokeDatabase) = db.pokeDao()
+
 }
 
 
@@ -43,7 +54,9 @@ object FrameworkCoreExtrasModule {
             "pokemon.db"
         ).fallbackToDestructiveMigration().build()
 
-    @Singleton
+
     @Provides
-    fun providePokemonDao(pokemon: PokeDatabase) = pokemon.pokeDao()
+    @Singleton
+    @Named("apiUrl")
+    fun provideApiUrl(): String = "https://pokeapi.co/"
 }
