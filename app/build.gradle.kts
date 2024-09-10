@@ -2,7 +2,6 @@
 plugins {
     alias(libs.plugins.kotlinxSerialization)
     alias(libs.plugins.ksp)
-    //alias(libs.plugins.hilt)
     //id("pokemon.android.library")
 
     id("pokemon.android.application")
@@ -48,9 +47,11 @@ android {
 dependencies {
 
     implementation(project(":domain:pokemon"))
+    implementation(project(":domain:region"))
 
     implementation(project(":framework:core"))
     implementation(project(":framework:pokemon"))
+    implementation(project(":framework:region"))
 
     implementation(project(":feature:home"))
     implementation(project(":feature:common"))

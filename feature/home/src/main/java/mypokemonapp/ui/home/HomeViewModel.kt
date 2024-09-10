@@ -34,20 +34,10 @@ class HomeViewModel @Inject constructor(
         .flatMapLatest { pokemonUseCase() }
         .stateAsResultIn(viewModelScope)
 
-    init {
+    /*init {
         uiReady.value = true
-        /*viewModelScope.launch(Dispatchers.IO) {
-            _state.value = UiState(isLoading = true)
-            _state.value = UiState(isLoading = false, pokemon = pokemonUseCase())
 
-            /*if (!result.isNullOrEmpty()) {
-                _pokemonValue.value = result.toMutableList() ?: mutableListOf()
-                Log.i("resultTest",result.toString())
-                loading.value = false
-
-            }*/
-        }*/
-    }
+    }*/
 
 
     fun onUiReady() {

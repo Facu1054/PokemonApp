@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 
 
-class PokeRoomDataSource @Inject constructor(
+internal class PokeRoomDataSource @Inject constructor(
     private val pokeDao: PokeDao,
     //private val pokeAbilityDao: PokeAbilityDao,
     //private val crossRefDao: PokemonAbilityCrossRefDao

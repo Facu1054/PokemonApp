@@ -41,9 +41,7 @@ fun Navigation(
             com.facundo.mypokemonapp.ui.common.NavScreen.Detail.route,
         arguments = listOf(navArgument(PokeId.key) { type = NavType.IntType })
         ) { backstackEntry ->
-            val pokemonId = requireNotNull(backstackEntry.arguments?.getInt(PokeId.key))
-
-            com.facundo.mypokemonapp.ui.detail.DetailScreen(
+            DetailScreen(
 
                 onBack = { navController.popBackStack() })
         }
