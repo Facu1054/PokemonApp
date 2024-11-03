@@ -1,5 +1,8 @@
 @file:Suppress("UnstableApiUsage")
 
+include(":test:unit")
+
+
 include(":framework:region")
 
 
@@ -27,6 +30,8 @@ include(":framework:pokemon")
 
 
 include(":framework")
+include(":test:unit")
+
 
 
 

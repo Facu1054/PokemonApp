@@ -20,15 +20,15 @@ internal fun Project.configureKotlinAndroid(
         }
 
         compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_1_8
-            targetCompatibility = JavaVersion.VERSION_1_8
+            sourceCompatibility = JavaVersion.VERSION_11
+            targetCompatibility = JavaVersion.VERSION_11
         }
     }
 
     // Use withType to workaround https://youtrack.jetbrains.com/issue/KT-55947
     tasks.withType<KotlinCompile>().configureEach {
         kotlinOptions {
-            jvmTarget = JavaVersion.VERSION_1_8.toString()
+            jvmTarget = JavaVersion.VERSION_11.toString()
         }
     }
 
@@ -45,5 +45,19 @@ internal fun Project.configureKotlinJvm() {
     extensions.configure<JavaPluginExtension> {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+    dependencies {
+        add("implementation", libs.findLibrary("kotlinx.coroutines.core").get())
+    }
+
+    addUnitTestDependencies()
+}
+
+private fun Project.addUnitTestDependencies() {
+    dependencies {
+        add("implementation", libs.findLibrary("kotlinx.coroutines.core").get())
+
+        add("testImplementation", libs.findLibrary("junit").get())
+        add("testImplementation", libs.findLibrary("mockito.kotlin").get())
     }
 }
