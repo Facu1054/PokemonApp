@@ -10,4 +10,6 @@ android {
 dependencies {
 
     implementation(project(":domain:pokemon"))
+    implementation(project(":domain:region"))
+
 }

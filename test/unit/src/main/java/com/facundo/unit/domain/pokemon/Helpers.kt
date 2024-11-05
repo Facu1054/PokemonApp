@@ -10,6 +10,8 @@ fun samplePokemon(id:Int) = Pokemon(
     urlImage = "",
     type1 = "Fire",
     type2 = "",
+    abilities = "None,None2",
+    statusAbility = "false,true",
     isFavorite = false
 )
 

@@ -1,6 +1,7 @@
 package com.facundo.mypokemonapp.ui.detail
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresExtension
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -59,6 +60,8 @@ class DetailViewModel  @Inject constructor(
         ability.value = abilities.value.zip(isHidden.value){ability, isHidden ->
             Ability(ability, isHidden.toBoolean())
         }
+
+        Log.i("Pokemon",pokemon.toString())
     }
 
     data class UiState(
