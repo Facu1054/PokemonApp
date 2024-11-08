@@ -36,7 +36,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.facundo.mypokemonapp.domain.pokemon.model.Pokemon
 import com.facundo.mypokemonapp.ui.common.AcScaffold
 import com.facundo.mypokemonapp.ui.common.R.string
+import com.facundo.mypokemonapp.ui.common.Result
 import com.facundo.mypokemonapp.ui.common.Screen
+import com.facundo.mypokemonapp.ui.common.ifSuccess
 import com.facundo.mypokemonapp.ui.common.theme.PokeTitle
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,8 +51,58 @@ fun DetailScreen(
     //pokeId : Int,
     onBack: () -> Unit
 ) {
-    //val pokemonInfo by detailViewModel.pokemonValue.collectAsStateWithLifecycle()
     val state by detailViewModel.state.collectAsState()
+
+    state.ifSuccess {
+        detailViewModel.onCreate(it)
+    }
+
+
+    DetailScreen(
+        state = state,
+        onBack = onBack,
+        onFavoriteClicked = detailViewModel::onFavoriteClicked,
+        abilities = { Abilities(detailViewModel) }
+    )
+
+
+
+}
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+@Composable
+fun Abilities(detailViewModel: DetailViewModel){
+    PokeFormat("Ability 1: ", detailViewModel.ability.value[0].nameAbility)
+
+
+    if (detailViewModel.ability.value.size > 1) {
+        PokeFormat(
+            "Ability 2: ",
+            detailViewModel.ability.value[1].nameAbility,
+            detailViewModel.ability.value[1].is_hidden
+        )
+    }
+
+    if (detailViewModel.ability.value.size > 2) {
+
+        PokeFormat(
+            "Ability 3: ",
+            detailViewModel.ability.value[2].nameAbility,
+            detailViewModel.ability.value[2].is_hidden
+        )
+
+    }
+}
+
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun DetailScreen(
+    state: Result<Pokemon>,
+    onBack: () -> Unit,
+    onFavoriteClicked: () -> Unit,
+    abilities: @Composable () -> Unit
+) {
+    //val pokemonInfo by detailViewModel.pokemonValue.collectAsStateWithLifecycle()
     val detailState = rememberDetailState(state)
 
     /*state.message?.let {
@@ -89,10 +141,7 @@ fun DetailScreen(
                 )
             },
             floatingActionButton = {
-                FloatingActionButton(onClick = {
-                    detailViewModel.onFavoriteClicked()
-                    //detailViewModel.onAction(DetailAction.FavoriteClick)
-                    }) {
+                FloatingActionButton( onClick = onFavoriteClicked ) {
                     val favorite = detailState.pokemon?.isFavorite ?: false
                     Icon(
                         imageVector = if (favorite) Icons.Default.Favorite else Icons.Default.FavoriteBorder,
@@ -106,7 +155,7 @@ fun DetailScreen(
             modifier = Modifier.nestedScroll(detailState.scrollBehavior.nestedScrollConnection)
         ) { padding, pokemon ->
 
-            PokemonTemplate(pokemon = pokemon, padding = padding,detailViewModel = detailViewModel)
+            PokemonTemplate(pokemon = pokemon, padding = padding,abilities = abilities)
             /*detailState.pokemon?.let { pokemon ->
                 PokemonTemplate(pokemon = pokemon, padding = padding)
             }*/
@@ -117,15 +166,14 @@ fun DetailScreen(
 
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @Composable
-fun PokemonTemplate(pokemon: Pokemon, padding: PaddingValues, detailViewModel: DetailViewModel) {
-    detailViewModel.onCreate(pokemon)
+fun PokemonTemplate(pokemon: Pokemon, padding: PaddingValues,abilities: @Composable () -> Unit) {
     Column {
         Column(
             modifier = Modifier
                 .padding(padding)
                 .verticalScroll(rememberScrollState())
         ) {
-            pokemon?.let { PokemonDetail(pokemonInfo = it, detailViewModel = detailViewModel) }
+            pokemon?.let { PokemonDetail(pokemonInfo = it, abilities = abilities) }
         }
 
         /*Card(

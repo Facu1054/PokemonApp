@@ -63,7 +63,7 @@ fun HomeScreen(
 @RequiresApi(Build.VERSION_CODES.O)
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @Composable
-private fun HomeScreen(
+fun HomeScreen(
     homeViewModel: Result<List<Pokemon>>,
     onPokemonClick: (Pokemon) -> Unit
 ) {

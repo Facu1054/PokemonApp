@@ -1,6 +1,7 @@
 package com.facundo.mypokemonapp.ui.detail
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresExtension
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -28,7 +29,7 @@ import com.facundo.mypokemonapp.ui.common.theme.backgroundPoke
 
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @Composable
-fun PokemonDetail(pokemonInfo: Pokemon, detailViewModel: DetailViewModel) {
+fun PokemonDetail(pokemonInfo: Pokemon, abilities: @Composable () -> Unit) {
 
     Column {
         Row {
@@ -90,7 +91,10 @@ fun PokemonDetail(pokemonInfo: Pokemon, detailViewModel: DetailViewModel) {
                     PokeFormat("Weight: ", pokemonInfo.weight)
                 }
 
-                PokeFormat(description = "Base Experience: ", type = pokemonInfo.base_experience)
+                PokeFormat(
+                    description = "Base Experience: ",
+                    DescriptionContent = pokemonInfo.base_experience
+                )
             }
 
 
@@ -139,26 +143,7 @@ fun PokemonDetail(pokemonInfo: Pokemon, detailViewModel: DetailViewModel) {
 
 
 
-                PokeFormat("Ability 1: ", detailViewModel.ability.value[0].nameAbility)
-
-
-                if (detailViewModel.ability.value.size > 1) {
-                    PokeFormat(
-                        "Ability 2: ",
-                        detailViewModel.ability.value[1].nameAbility,
-                        detailViewModel.ability.value[1].is_hidden
-                    )
-                }
-
-                if (detailViewModel.ability.value.size > 2) {
-
-                    PokeFormat(
-                        "Ability 3: ",
-                        detailViewModel.ability.value[2].nameAbility,
-                        detailViewModel.ability.value[2].is_hidden
-                    )
-
-                }
+                abilities()
             }
 
         }
@@ -168,7 +153,7 @@ fun PokemonDetail(pokemonInfo: Pokemon, detailViewModel: DetailViewModel) {
 }
 
 @Composable
-fun PokeFormat(description: String, type: String, isHidden: Boolean = false) {
+fun PokeFormat(description: String, DescriptionContent: String, isHidden: Boolean = false) {
     Text(
         text = description,
         fontSize = 16.sp,
@@ -177,7 +162,7 @@ fun PokeFormat(description: String, type: String, isHidden: Boolean = false) {
     )
     Row {
         Text(
-            text = type,
+            text = DescriptionContent,
             fontSize = 16.sp,
             color = Color.Black
         )

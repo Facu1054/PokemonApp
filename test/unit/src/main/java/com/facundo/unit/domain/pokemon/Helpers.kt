@@ -5,12 +5,12 @@ import com.facundo.mypokemonapp.domain.pokemon.model.Pokemon
 
 fun samplePokemon(id:Int) = Pokemon(
     id = id,
-    pokemonName = "Title",
+    pokemonName = "Title $id",
     url = "",
     urlImage = "",
     type1 = "Fire",
     type2 = "",
-    abilities = "None,None2",
+    abilities = "Generic 1,Hidden Ability",
     statusAbility = "false,true",
     isFavorite = false
 )
