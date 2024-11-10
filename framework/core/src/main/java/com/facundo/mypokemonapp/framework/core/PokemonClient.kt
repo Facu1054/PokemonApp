@@ -8,6 +8,7 @@ import retrofit2.converter.kotlinx.serialization.asConverterFactory
 import retrofit2.create
 
 internal class PokemonClient(private val apiUrl: String) {
+//internal class PokemonClient() {
     val instance = Retrofit.Builder()
     .baseUrl(apiUrl)
     .addConverterFactory(GsonConverterFactory.create())

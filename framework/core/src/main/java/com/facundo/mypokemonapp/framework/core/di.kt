@@ -15,20 +15,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 internal object FrameworkCoreModule {
-    /*@Singleton
-    @Provides
-    fun provideRetrofit(): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl("https://pokeapi.co/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-    }*/
-
-    /*@Provides
-    @Singleton
-    fun providePokemonApiClient(retrofit: Retrofit): PokeApiClient {
-        return retrofit.create(PokeApiClient::class.java)
-    }*/
 
     @Provides
     @Singleton
@@ -37,9 +23,17 @@ internal object FrameworkCoreModule {
     ) : PokeApiClient = PokemonClient(apiUrl).instance
 
     @Provides
-    fun provideMoviesDao(db: PokeDatabase) = db.pokeDao()
+    fun providePokemonDao(db: PokeDatabase) = db.pokeDao()
+
+    /*@Provides
+    @Singleton
+    fun provideMoviesService(): PokeApiClient = PokemonClient().instance*/
+
+
 
 }
+
+
 
 
 @Module
