@@ -8,16 +8,7 @@
       <entry key="app">
         <State />
       </entry>
-      <entry key="whenBackClicked_listenerIsCalled()">
-        <State />
-      </entry>
-      <entry key="whenSuccessState_showAbilities()">
-        <State />
-      </entry>
-      <entry key="whenSuccessState_showHiddenAbility()">
-        <State />
-      </entry>
-      <entry key="whenSuccessState_showNormalAbility()">
+      <entry key="test_it_works() (1)">
         <State />
       </entry>
     </value>

@@ -53,11 +53,3 @@ internal fun Project.configureKotlinJvm() {
 
     addUnitTestDependencies()
 }
-
-private fun Project.addUnitTestDependencies() {
-    dependencies {
-
-        add("testImplementation", libs.findLibrary("junit").get())
-        add("testImplementation", libs.findLibrary("mockito.kotlin").get())
-    }
-}
