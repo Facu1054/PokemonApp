@@ -17,7 +17,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.facundo.mypokemonapp.di.HiltTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -64,11 +64,11 @@ dependencies {
     implementation(libs.play.services.location)
 
     testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.junit)
-    androidTestImplementation(libs.androidx.espresso.core)
-    androidTestImplementation(platform(libs.androidx.compose.bom))
-    androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.test.manifest)
+    androidTestImplementation(libs.hilt.android.testing)
+    kspAndroidTest(libs.hilt.compiler)
+
+    androidTestImplementation(libs.androidx.room.ktx)
+    kspAndroidTest(libs.androidx.room.compiler)
 
     //Retrofit
     //implementation(libs.retrofit)
