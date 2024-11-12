@@ -5,10 +5,19 @@
       <entry key="DetailScreenTest">
         <State />
       </entry>
-      <entry key="ExampleInstrumentedTest (1)">
+      <entry key="MainInstrumentedTest">
         <State />
       </entry>
       <entry key="app">
+        <State />
+      </entry>
+      <entry key="click_a_pokemon_navigates_to_detail()">
+        <State />
+      </entry>
+      <entry key="click_a_pokemon_navigates_to_detailBulbasaur()">
+        <State />
+      </entry>
+      <entry key="testDetailScreenReceivesData()">
         <State />
       </entry>
     </value>

@@ -83,7 +83,6 @@ fun HomeScreen(
                 TopAppBar(
                     title = { Text(text = "Pokemon") },
                     scrollBehavior = homeState.scrollBehavior,
-
                     )
             },
             modifier = Modifier.nestedScroll(homeState.scrollBehavior.nestedScrollConnection),
@@ -111,12 +110,11 @@ fun HomeScreen(
 
 @Composable
 fun PokemonItem(pokemon: Pokemon, onClick: () -> Unit) {
-    Card(modifier = Modifier.clickable {
+    Column(modifier = Modifier.clickable {
         onClick()
-    }
+    }) {
+    Card(
     ) {
-        Column {
-
             AsyncImage(
 
                 model = pokemon.urlImage, contentDescription = pokemon.pokemonName,

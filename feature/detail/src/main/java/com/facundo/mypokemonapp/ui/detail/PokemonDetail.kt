@@ -27,7 +27,6 @@ import coil.request.ImageRequest
 import com.facundo.mypokemonapp.domain.pokemon.model.Pokemon
 import com.facundo.mypokemonapp.ui.common.theme.backgroundPoke
 
-@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @Composable
 fun PokemonDetail(pokemonInfo: Pokemon, abilities: @Composable () -> Unit) {
 
@@ -49,7 +48,7 @@ fun PokemonDetail(pokemonInfo: Pokemon, abilities: @Composable () -> Unit) {
                         )
                         .crossfade(true)
                         .build(),
-                    contentDescription = "Image Marvel Character",
+                    contentDescription = "Image Pokemon",
                     modifier = Modifier
                         .fillMaxWidth()
                         .background(backgroundPoke)
