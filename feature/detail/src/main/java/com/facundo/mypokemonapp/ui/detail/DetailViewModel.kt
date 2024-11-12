@@ -44,7 +44,7 @@ class DetailViewModel @Inject constructor(
 
 
 
-    init {
+    /*init {
         viewModelScope.launch {
             state.collect { result ->
                 when (result) {
@@ -54,7 +54,7 @@ class DetailViewModel @Inject constructor(
                 }
             }
         }
-    }
+    }*/
 
     fun onCreate(pokemon: Pokemon) {
         abilities.value = pokemon.abilities.split(",")
