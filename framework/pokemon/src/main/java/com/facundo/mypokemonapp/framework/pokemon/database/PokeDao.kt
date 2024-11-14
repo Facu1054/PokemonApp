@@ -19,7 +19,6 @@ interface PokeDao {
 
     @Query("SELECT COUNT(*) FROM DbPokemon")
     suspend fun count(): Int
-
     /*@Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun savePokemon(pokemon: Pokemon): Int*/
 

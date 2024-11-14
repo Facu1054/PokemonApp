@@ -28,7 +28,7 @@ import com.facundo.mypokemonapp.domain.pokemon.model.Pokemon
 import com.facundo.mypokemonapp.ui.common.theme.backgroundPoke
 
 @Composable
-fun PokemonDetail(pokemonInfo: Pokemon, abilities: @Composable () -> Unit) {
+fun PokemonDetail(pokemonInfo: Pokemon, abilities: @Composable () -> Unit, moves: @Composable () -> Unit) {
 
     Column {
         Row {
@@ -146,7 +146,7 @@ fun PokemonDetail(pokemonInfo: Pokemon, abilities: @Composable () -> Unit) {
             }
 
         }
-
+        moves()
 
     }
 }

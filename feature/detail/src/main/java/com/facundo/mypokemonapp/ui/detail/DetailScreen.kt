@@ -3,10 +3,13 @@ package com.facundo.mypokemonapp.ui.detail
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.annotation.RequiresExtension
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -16,6 +19,7 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.SnackbarHost
@@ -40,6 +44,7 @@ import com.facundo.mypokemonapp.ui.common.Result
 import com.facundo.mypokemonapp.ui.common.Screen
 import com.facundo.mypokemonapp.ui.common.ifSuccess
 import com.facundo.mypokemonapp.ui.common.theme.PokeTitle
+import com.facundo.mypokemonapp.ui.common.theme.colorMoves
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -60,11 +65,78 @@ fun DetailScreen(
         state = state,
         onBack = onBack,
         onFavoriteClicked = detailViewModel::onFavoriteClicked,
-        abilities = { Abilities(detailViewModel) }
+        abilities = { Abilities(detailViewModel) },
+        moves = { Moves(detailViewModel) }
     )
 
 
 }
+
+@Composable
+fun Moves ( detailViewModel: DetailViewModel ){
+    val moves by detailViewModel.pokemonMoves.collectAsState()
+    if (moves.size > 1) {
+        Column(
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                // Header Row
+                Row(Modifier.background(colorMoves)) {
+                    TableCell(text = "Move", weight = 1f, color = Color.White)
+                    TableCell(text = "Learn method", weight = 1f, color = Color.White)
+                }
+
+                // Display the moves
+                moves.forEach { move ->
+                    Row(modifier = Modifier.fillMaxWidth()) {
+                        TableCell(
+                            text = move.move.name,
+                            weight = 1f
+                        )
+                        val learnMethod = move.versionGroupDetails[0].moveLearnMethod
+                        TableCell(
+                            text = learnMethod,
+                            weight = 1f
+                        )
+                    }
+                    HorizontalDivider()
+                }
+            }
+    }
+
+
+/*
+        LazyColumn(
+
+        ) {
+
+            item {
+
+                Row(Modifier.background(colorMoves)) {
+                    TableCell(text = "Move", weight = 1f, color = Color.White)
+                    TableCell(text = "Learn method", weight = 1f, color = Color.White)
+                }
+            }
+
+            detailViewModel.pokemonMoves?.let {movesState ->
+                items(movesState.value) { move ->
+
+                    Row(modifier = Modifier.fillMaxWidth()) {
+                        TableCell(
+                            text = move.move.name,
+                            weight = 1f
+                        )
+                        val learnMethod = move.versionGroupDetails[0].moveLearnMethod
+                        TableCell(
+                            text = learnMethod,
+                            weight = 1f,
+                        )
+                    }
+                    HorizontalDivider()
+                }
+            }
+        }*/
+    }
+
 
 @Composable
 fun Abilities(detailViewModel: DetailViewModel) {
@@ -96,7 +168,8 @@ fun DetailScreen(
     state: Result<Pokemon>,
     onBack: () -> Unit,
     onFavoriteClicked: () -> Unit,
-    abilities: @Composable () -> Unit
+    abilities: @Composable () -> Unit,
+    moves: @Composable () -> Unit
 ) {
     //val pokemonInfo by detailViewModel.pokemonValue.collectAsStateWithLifecycle()
     val detailState = rememberDetailState(state)
@@ -153,7 +226,7 @@ fun DetailScreen(
             modifier = Modifier.nestedScroll(detailState.scrollBehavior.nestedScrollConnection)
         ) { padding, pokemon ->
 
-            PokemonTemplate(pokemon = pokemon, padding = padding, abilities = abilities)
+            PokemonTemplate(pokemon = pokemon, padding = padding, abilities = abilities,moves = moves)
             /*detailState.pokemon?.let { pokemon ->
                 PokemonTemplate(pokemon = pokemon, padding = padding)
             }*/
@@ -163,57 +236,18 @@ fun DetailScreen(
 }
 
 @Composable
-fun PokemonTemplate(pokemon: Pokemon, padding: PaddingValues, abilities: @Composable () -> Unit) {
+fun PokemonTemplate(pokemon: Pokemon, padding: PaddingValues, abilities: @Composable () -> Unit, moves: @Composable () -> Unit) {
 
     Column(
         modifier = Modifier
             .padding(padding)
             .verticalScroll(rememberScrollState())
     ) {
-        pokemon?.let { PokemonDetail(pokemonInfo = it, abilities = abilities) }
+        pokemon?.let { PokemonDetail(pokemonInfo = it, abilities = abilities,moves = moves) }
     }
 
-    /*Card(
-        border = BorderStroke(2.dp, Color.Black),
-        modifier = Modifier
-            .background(Color.Transparent)
-            .padding(8.dp)
-    ) {
 
 
-        LazyColumn(
-
-        ) {
-
-            item {
-
-                Row(Modifier.background(colorMoves)) {
-                    TableCell(text = "Move", weight = 1f, color = Color.White)
-                    TableCell(text = "Learn method", weight = 1f, color = Color.White)
-                }
-            }
-
-            pokemon?.let {
-                items(it.moves) { move ->
-
-                    Row(modifier = Modifier.fillMaxWidth()) {
-                        TableCell(
-                            text = move.move.name,
-                            weight = 1f
-                        )
-                        val learnMethod =
-                            move.version_group_details.last().move_learn_method.name
-                        TableCell(
-                            text = learnMethod,
-                            weight = 1f,
-                        )
-                    }
-                    HorizontalDivider()
-                }
-            }
-        }
-    }
-    */
 
 }
 

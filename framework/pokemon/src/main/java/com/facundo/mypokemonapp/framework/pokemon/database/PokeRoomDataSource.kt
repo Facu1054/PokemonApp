@@ -26,33 +26,6 @@ internal class PokeRoomDataSource @Inject constructor(
         pokeDao.save(pokemon.map { it.toDbMovie() })
     }
 
-    /*
-        suspend fun savePokemon(pokemon: Pokemon) {
-            pokeDao.savePokemon(pokemon)
-        }*/
-
-    /*suspend fun saveAbilities(abilities: Ability) {
-        pokeAbilityDao.saveAbility(abilities)
-    }*/
-
-    /*
-        suspend fun insertPokemonWithAbilities(pokemonList: List<Pokemon>) {
-
-            //pokemon: Pokemon, abilities: List<Ability>
-
-            pokemonList.forEach { pokemon ->
-                val pokemonId = pokeDao.savePokemon(pokemon)
-                pokemon.abilities.forEach { ability ->
-                    val abilityId = pokeAbilityDao.saveAbility(ability)
-                    crossRefDao.insert(PokemonAbilityCrossRef(pokemonId, abilityId))
-                }
-            }
-
-        }*/
-
-    /*fun getPokemonWithAbilities(pokemonId: Int): Flow<PokemonAbilityCrossRef?> {
-        return pokeDao.getPokemonWithAbilities(pokemonId)
-    }*/
 
 }
 
@@ -70,8 +43,9 @@ private fun Pokemon.toDbMovie() = DbPokemon(
     urlImageShiny,
     abilities,
     statusAbility,
+    moves,
     isFavorite,
-    region
+    region,
 )
 
 private fun DbPokemon.toDomainPokemon() = Pokemon(
@@ -89,5 +63,6 @@ private fun DbPokemon.toDomainPokemon() = Pokemon(
     abilities,
     statusAbility,
     isFavorite,
+    moves,
     region
 )

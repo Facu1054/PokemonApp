@@ -19,6 +19,7 @@ data class DbPokemon(
     var abilities: String = "",
     var statusAbility: String = "",
     //val moves: List<Move> = emptyList(),
+    val moves: String = "",
     val isFavorite: Boolean,
     var region: String = ""
 )

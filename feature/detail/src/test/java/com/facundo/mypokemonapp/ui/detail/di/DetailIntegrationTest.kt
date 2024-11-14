@@ -1,11 +1,14 @@
 package com.facundo.mypokemonapp.ui.detail.di
 
 import app.cash.turbine.test
+import com.facundo.mypokemonapp.domain.pokemon.data.PokeMovesConverter
 import com.facundo.mypokemonapp.domain.pokemon.usecases.GetPokemonUseCase
 import com.facundo.mypokemonapp.domain.pokemon.usecases.ToggleFavoriteUseCase
 import com.facundo.mypokemonapp.ui.common.*
 import com.facundo.mypokemonapp.ui.detail.DetailViewModel
+import com.facundo.unit.data.buildPokemonMovesConverter
 import com.facundo.unit.data.buildPokemonRepositoryWith
+import com.facundo.unit.domain.pokemon.sampleMoves
 import com.facundo.unit.domain.pokemon.samplePokemon
 import com.facundo.unit.domain.pokemon.samplePokemons
 import com.facundo.unit.testrules.CoroutinesTestRule
@@ -31,10 +34,12 @@ class DetailIntegrationTest {
     @Before
     fun setUp() {
         val moviesRepository = buildPokemonRepositoryWith(localData = samplePokemons(1,2,3,4))
+        val pokeMovesConverter = buildPokemonMovesConverter(sampleMoves())
         vm = DetailViewModel(
             2,
             GetPokemonUseCase(moviesRepository),
-            ToggleFavoriteUseCase(moviesRepository)
+            ToggleFavoriteUseCase(moviesRepository),
+            PokeMovesConverter()
         )
     }
 

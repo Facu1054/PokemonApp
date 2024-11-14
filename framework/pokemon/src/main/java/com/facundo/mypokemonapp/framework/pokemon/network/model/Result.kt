@@ -17,8 +17,7 @@ fun Result.toDomainModel(): Pokemon {
         id = id.toInt(),
         pokemonName = name.replaceFirstChar { it.uppercase() },
         url = url,
-        isFavorite = false
-
+        isFavorite = false,
         //abilities = emptyList()
     )
 }

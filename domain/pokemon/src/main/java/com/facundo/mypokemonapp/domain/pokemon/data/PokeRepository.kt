@@ -11,7 +11,7 @@ import javax.inject.Inject
 open class PokeRepository @Inject constructor(
     private val regionRepository: RegionRepository,
     private val localDataSource: PokeLocalDataSource,
-    private val remoteDataSource: PokeRemoteDataSource
+    private val remoteDataSource: PokeRemoteDataSource,
 ) {
 
 
@@ -49,6 +49,5 @@ open class PokeRepository @Inject constructor(
     suspend fun toggleFavorite(pokemon: Pokemon) {
         localDataSource.savePokemons(listOf(pokemon.copy(isFavorite = !pokemon.isFavorite)))
     }
-
 
 }

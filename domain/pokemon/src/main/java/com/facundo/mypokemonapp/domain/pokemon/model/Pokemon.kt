@@ -16,8 +16,8 @@ data class Pokemon(
     val urlImageShiny: String = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/shiny/$id.png",
     var abilities: String = "",
     var statusAbility: String = "",
-    //val moves: List<Move> = emptyList(),
     val isFavorite: Boolean ,
+    val moves: String = "",
     var region: String = ""
 )
 

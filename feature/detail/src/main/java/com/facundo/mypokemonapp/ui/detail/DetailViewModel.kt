@@ -6,11 +6,13 @@ import androidx.annotation.RequiresExtension
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.facundo.mypokemonapp.domain.pokemon.data.PokeMovesConverter
 import com.facundo.mypokemonapp.domain.pokemon.usecases.GetPokemonUseCase
 import com.facundo.mypokemonapp.domain.pokemon.usecases.ToggleFavoriteUseCase
 import com.facundo.mypokemonapp.ui.detail.di.PokemonId
 import com.facundo.mypokemonapp.domain.pokemon.model.Ability
 import com.facundo.mypokemonapp.domain.pokemon.model.Pokemon
+import com.facundo.mypokemonapp.domain.pokemon.model.SimplifiedMove
 import com.facundo.mypokemonapp.ui.common.stateAsResultIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,7 +33,8 @@ sealed interface DetailAction {
 class DetailViewModel @Inject constructor(
     @PokemonId id: Int,
     pokemonUseCase: GetPokemonUseCase,
-    private val toggleFavoriteUseCase: ToggleFavoriteUseCase
+    private val toggleFavoriteUseCase: ToggleFavoriteUseCase,
+    private val moveConverter: PokeMovesConverter
 ) : ViewModel() {
     private var pokeId = MutableStateFlow(id)
 
@@ -40,7 +43,10 @@ class DetailViewModel @Inject constructor(
 
     var abilities = mutableStateOf<List<String>>(emptyList())
     var ability = mutableStateOf<List<Ability>>(emptyList())
+    //var pokemonMoves = mutableStateOf<List<SimplifiedMove>>(emptyList())
     var isHidden = mutableStateOf<List<String>>(emptyList())
+
+    //var moves : StateFlow<Result<List<Move>>> = moveConverter(id).stateAsResultIn(viewModelScope)
 
 
 
@@ -55,6 +61,16 @@ class DetailViewModel @Inject constructor(
             }
         }
     }*/
+    private val _pokemonMoves = MutableStateFlow<List<SimplifiedMove>>(emptyList())
+    val pokemonMoves: StateFlow<List<SimplifiedMove>> = _pokemonMoves
+
+    init {
+        viewModelScope.launch {
+            moveConverter.getMoves().collect { moves ->
+                _pokemonMoves.value = moves
+            }
+        }
+    }
 
     fun onCreate(pokemon: Pokemon) {
         abilities.value = pokemon.abilities.split(",")
@@ -63,10 +79,10 @@ class DetailViewModel @Inject constructor(
         ability.value = abilities.value.zip(isHidden.value) { ability, isHidden ->
             Ability(ability, isHidden.toBoolean())
         }
+        Log.i("PokeMoves", pokemon.moves.toString())
 
         Log.i("Pokemon", pokemon.toString())
     }
-
     data class UiState(
         val isLoading: Boolean = false,
         val pokemon: Pokemon? = null,

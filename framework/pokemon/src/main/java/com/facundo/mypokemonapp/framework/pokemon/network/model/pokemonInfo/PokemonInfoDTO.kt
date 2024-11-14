@@ -1,6 +1,7 @@
 package com.facundo.mypokemonapp.framework.pokemon.network.model.pokemonInfo
 
 import com.facundo.mypokemonapp.domain.pokemon.model.Pokemon
+import com.google.gson.Gson
 
 data class PokemonInfoDTO(
     val abilities: List<Ability>,
@@ -43,7 +44,8 @@ fun PokemonInfoDTO.toDomainModel(): Pokemon {
         } else "" + if (abilities.size > 2) {
             "," + abilities[2].is_hidden.toString()
         } else "",
-        isFavorite = false
+        isFavorite = false,
+        moves = Gson().toJson(moves)
 
 
         //abilities = abilities.map { Ability(nameAbility = it.ability.name.replaceFirstChar { it.uppercase() }, is_hidden = it.is_hidden)},
