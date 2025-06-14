@@ -33,7 +33,8 @@ class DetailScreenTest {
                 state = Result.Success(samplePokemon(2)),
                 onBack = {},
                 onFavoriteClicked = {},
-                abilities = {}
+                abilities = {},
+                moves = {}
             )
 
         }
@@ -47,7 +48,8 @@ class DetailScreenTest {
                 state = Result.Loading,
                 onBack = {},
                 onFavoriteClicked = {},
-                abilities = {}
+                abilities = {},
+                moves = {}
             )
         }
 
@@ -62,7 +64,8 @@ class DetailScreenTest {
                 state = Result.Error(RuntimeException("An error occurred")),
                 onBack = {},
                 onFavoriteClicked = {},
-                abilities = {}
+                abilities = {},
+                moves = {}
             )
         }
 
@@ -70,14 +73,15 @@ class DetailScreenTest {
     }
 
     @Test
-    fun whenSuccessState_movieIsShown(): Unit = with(composeTestRule) {
+    fun whenSuccessState_PokemonIsShown(): Unit = with(composeTestRule) {
         setContent {
 
             DetailScreen(
                 state = Result.Success(samplePokemon(2)),
                 onBack = {},
                 onFavoriteClicked = {},
-                abilities = {}
+                abilities = {},
+                moves = {}
             )
 
         }
@@ -95,7 +99,8 @@ class DetailScreenTest {
                 state = Result.Success(samplePokemon(2)),
                 onBack = {},
                 onFavoriteClicked = { clicked = true },
-                abilities = {}
+                abilities = {},
+                moves = {}
             )
         }
 
@@ -112,7 +117,8 @@ class DetailScreenTest {
                 state = Result.Success(samplePokemon(2)),
                 onBack = { clicked = true },
                 onFavoriteClicked = {},
-                abilities = {}
+                abilities = {},
+                moves = {}
             )
 
         }
@@ -137,7 +143,8 @@ class DetailScreenTest {
                         isHiddenAbilities[0].toBoolean()
                     )
 
-                }
+                },
+                moves = {}
             )
 
         }
@@ -161,7 +168,8 @@ class DetailScreenTest {
                         isHiddenAbilities[1].toBoolean()
                     )
 
-                }
+                },
+                moves = {}
             )
 
         }
@@ -186,7 +194,8 @@ class DetailScreenTest {
                         isHiddenAbilities[0].toBoolean()
                     )
 
-                }
+                },
+                moves = {}
             )
 
         }
@@ -195,6 +204,9 @@ class DetailScreenTest {
 
         onAllNodesWithText(isHiddenAbilities[0]).onFirst().assertDoesNotExist()
     }
+
+
+
 
 }
 

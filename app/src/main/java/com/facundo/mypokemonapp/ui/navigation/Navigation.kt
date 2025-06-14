@@ -11,6 +11,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.facundo.mypokemonapp.ui.common.NavArgs.*
+import com.facundo.mypokemonapp.ui.common.NavScreen.Detail
 import com.facundo.mypokemonapp.ui.detail.DetailScreen
 import mypokemonapp.ui.home.HomeScreen
 
@@ -32,13 +33,13 @@ fun Navigation(
 
     NavHost(navController = navController, startDestination = com.facundo.mypokemonapp.ui.common.NavScreen.Home.route) {
         composable(com.facundo.mypokemonapp.ui.common.NavScreen.Home.route) {
-            mypokemonapp.ui.home.HomeScreen() { pokeItem ->
-                navController.navigate(com.facundo.mypokemonapp.ui.common.NavScreen.Detail.createRoute(pokeItem.id))
+            HomeScreen() { pokeItem ->
+                navController.navigate(Detail.createRoute(pokeItem.id))
                 println("Pokemon ID: ${pokeItem.id}")
             }
         }
         composable(
-            com.facundo.mypokemonapp.ui.common.NavScreen.Detail.route,
+            Detail.route,
         arguments = listOf(navArgument(PokeId.key) { type = NavType.IntType })
         ) { backstackEntry ->
             DetailScreen(

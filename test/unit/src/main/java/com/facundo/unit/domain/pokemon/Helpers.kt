@@ -15,6 +15,23 @@ fun samplePokemon(id:Int) = Pokemon(
     abilities = "Generic 1,Hidden Ability",
     statusAbility = "false,true",
     isFavorite = false,
+    moves = "\n" +
+            "[\n" +
+            "  {\n" +
+            "    \"move\": {\n" +
+            "      \"name\": \"razor-wind\",\n" +
+            "    },\n" +
+            "    \"version_group_details\": [\n" +
+            "      {\n" +
+            "        \"level_learned_at\": 0,\n" +
+            "        \"move_learn_method\": \"egg\",\n" +
+            "        \"version_group\": \"gold-silver\",\n" +
+            "          \n" +
+            "      }\n" +
+            "    ]\n" +
+            "  }\n" +
+            "]"
+
 
 )
 /*

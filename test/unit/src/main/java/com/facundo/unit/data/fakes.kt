@@ -9,7 +9,6 @@ import com.facundo.mypokemonapp.domain.pokemon.model.SimplifiedMove
 import com.facundo.mypokemonapp.domain.region.data.DEFAULT_REGION
 import com.facundo.mypokemonapp.domain.region.data.RegionDataSource
 import com.facundo.mypokemonapp.domain.region.data.RegionRepository
-import com.facundo.unit.domain.pokemon.sampleMoves
 import com.facundo.unit.domain.pokemon.samplePokemons
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -64,11 +63,19 @@ class FakeRemoteDataSource : PokeRemoteDataSource {
 
 }
 
-
+/*
 class FakePokeMovesConverter : PokeMovesConverter {
     var pokemon = sampleMoves()
 
     override suspend fun getMoves(): Flow<List<SimplifiedMove>> {
         return emptyFlow()
+    }
+}*/
+class FakePokeMovesConverter : PokeMovesConverter {
+
+
+    override suspend fun getMoves(): Flow<List<SimplifiedMove>> {
+        return emptyFlow()
+
     }
 }

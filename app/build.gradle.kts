@@ -71,6 +71,9 @@ dependencies {
     kspAndroidTest(libs.androidx.room.compiler)
     androidTestImplementation(libs.okhttp.mockwebserver)
 
+    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.mockito.core)
+    testImplementation(libs.mockito.inline)
 
     //Retrofit
     //implementation(libs.retrofit)

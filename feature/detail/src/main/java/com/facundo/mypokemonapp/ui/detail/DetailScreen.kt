@@ -81,7 +81,7 @@ fun Moves ( detailViewModel: DetailViewModel ){
             ) {
                 // Header Row
                 Row(Modifier.background(colorMoves)) {
-                    TableCell(text = "Move", weight = 1f, color = Color.White)
+                    TableCell(text = "Moves in S/V", weight = 1f, color = Color.White)
                     TableCell(text = "Learn method", weight = 1f, color = Color.White)
                 }
 
